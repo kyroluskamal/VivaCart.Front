@@ -1,0 +1,49 @@
+// abstracts/_mixins.scss
+
+@mixin elevation($level) {
+  $umbra-opacity: 0.2;
+  $penumbra-opacity: 0.14;
+  $ambient-opacity: 0.12;
+
+  @if $level == 0 {
+    box-shadow: none;
+  } @else {
+    $umbra: 0px ($level * 1px) ($level * 2px) rgba(0, 0, 0, $umbra-opacity);
+    $penumbra: 0px ($level * 2px) ($level * 4px) rgba(0, 0, 0, $penumbra-opacity);
+    $ambient: 0px ($level * 3px) ($level * 6px) rgba(0, 0, 0, $ambient-opacity);
+    box-shadow: $umbra, $penumbra, $ambient;
+  }
+}
+
+@mixin ripple-effect {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: rem(10px);
+    height: rem(10px);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  &:active::after {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 1;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}

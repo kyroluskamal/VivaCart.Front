@@ -1,0 +1,26 @@
+@mixin generate-spacing-classes($property, $class-prefix) {
+  @for $i from 0 through 5 {
+    .#{$class-prefix}-#{$i} {
+      #{$property}: rem($i * $spacing-unit);
+    }
+
+    .#{$class-prefix}t-#{$i} {
+      #{$property}-top: rem($i * $spacing-unit);
+    }
+
+    .#{$class-prefix}r-#{$i} {
+      #{$property}-right: rem($i * $spacing-unit);
+    }
+
+    .#{$class-prefix}b-#{$i} {
+      #{$property}-bottom: rem($i * $spacing-unit);
+    }
+
+    .#{$class-prefix}l-#{$i} {
+      #{$property}-left: rem($i * $spacing-unit);
+    }
+  }
+}
+
+@include generate-spacing-classes('margin', 'm');
+@include generate-spacing-classes('padding', 'p');

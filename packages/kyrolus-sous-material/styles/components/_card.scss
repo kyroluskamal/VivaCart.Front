@@ -1,0 +1,33 @@
+.card {
+  background-color: $color-surface;
+  border-radius: $border-radius-medium;
+  @include elevation(1);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    @include elevation(4);
+  }
+
+  &__header {
+    padding: rem($spacing-unit * 2);
+    background-color: lighten($color-primary, 40%);
+    color: $color-on-primary;
+    font-weight: $font-weight-medium;
+  }
+
+  &__content {
+    padding: rem($spacing-unit * 2);
+    color: $color-on-surface;
+  }
+
+  &__actions {
+    padding: rem($spacing-unit * 2);
+    display: flex;
+    justify-content: flex-end;
+
+    .button {
+      margin-left: rem($spacing-unit);
+    }
+  }
+}

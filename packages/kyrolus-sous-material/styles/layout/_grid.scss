@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: rem($spacing-unit * 2);
+  padding-left: rem($spacing-unit * 2);
+
+  @media (min-width: 600px) {
+    max-width: 600px;
+  }
+  @media (min-width: 960px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: rem(-$spacing-unit);
+  margin-left: rem(-$spacing-unit);
+}
+
+.col {
+  flex: 1;
+  padding-right: rem($spacing-unit);
+  padding-left: rem($spacing-unit);
+  max-width: 100%;
+
+  @for $i from 1 through 12 {
+    &-#{$i} {
+      $width-percentage: percentage($i / 12);
+      flex: 0 0 #{$width-percentage};
+      max-width: #{$width-percentage};
+    }
+  }
+}
