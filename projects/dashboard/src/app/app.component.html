@@ -1,1 +1,16 @@
-<ks-dashboard-layout></ks-dashboard-layout>
+<ks-dashboard-layout [sidebarMode]="sidebarMode()" class="dashboard-bg">
+  <ks-side-nav
+    class="bg-white"
+    [(open)]="openSideBar"
+    class="elevation-2 bg-white"
+  >
+  </ks-side-nav>
+  <ks-navbar-container class="elevation-2 bg-white">
+    <ks-navbar-row>
+      <button (click)="openSideBar.set(!openSideBar())">btn</button>
+    </ks-navbar-row>
+  </ks-navbar-container>
+  <ks-dashboard-content>
+    <router-outlet></router-outlet>
+  </ks-dashboard-content>
+</ks-dashboard-layout>

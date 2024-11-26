@@ -89,6 +89,10 @@
               {
                 "glob": "**/*",
                 "input": "projects/dashboard/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/kyrolus-sous-material/assets"
               }
             ],
             "styles": [
@@ -108,8 +112,8 @@
           "inlineTemplate": true,
           "inlineStyle": true,
           "standalone": true,
-          "flat": false,
-          "skipTests": false
+          "flat": true,
+          "skipTests": true
         }
       },
       "root": "packages/kyrolus-sous-material",

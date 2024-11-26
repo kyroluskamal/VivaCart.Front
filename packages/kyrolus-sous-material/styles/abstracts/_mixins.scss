@@ -1,49 +1,960 @@
-// abstracts/_mixins.scss
-
+@use "sass:map";
+@use "sass:string";
+@use "maps" as *;
+@use "variables" as *;
 @mixin elevation($level) {
-  $umbra-opacity: 0.2;
-  $penumbra-opacity: 0.14;
-  $ambient-opacity: 0.12;
-
-  @if $level == 0 {
-    box-shadow: none;
+  @if map.has-key($elevations, $level) {
+    box-shadow: map.get($elevations, $level);
   } @else {
-    $umbra: 0px ($level * 1px) ($level * 2px) rgba(0, 0, 0, $umbra-opacity);
-    $penumbra: 0px ($level * 2px) ($level * 4px) rgba(0, 0, 0, $penumbra-opacity);
-    $ambient: 0px ($level * 3px) ($level * 6px) rgba(0, 0, 0, $ambient-opacity);
-    box-shadow: $umbra, $penumbra, $ambient;
+    @warn "Elevation level #{$level} is not defined.";
+  }
+}
+//display property classes
+@mixin generate-display-classes {
+  @each $name, $value in $display-values {
+    .d-#{$name} {
+      display: $value ;
+    }
+  }
+}
+@mixin generate-responsive-display-classes {
+  @each $breakpoint, $breakpoint-value in $breakpoints {
+    @media (min-width: $breakpoint-value) {
+      @each $name, $value in $display-values {
+        .d-#{$breakpoint}-#{$name} {
+          display: $value ;
+        }
+      }
+    }
   }
 }
 
-@mixin ripple-effect {
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
+//##########################################################################
+//###################       region Flexbox         #########################
+//##########################################################################
 
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: rem(10px);
-    height: rem(10px);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.3s, opacity 0.3s;
+@mixin generate-flex-direction-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-direction-values {
+          .flex-#{$breakpoint}-#{$name} {
+            flex-direction: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-direction-values {
+      .flex-#{$name} {
+        flex-direction: $value ;
+      }
+    }
   }
-
-  &:active::after {
-    transform: translate(-50%, -50%) scale(4);
-    opacity: 1;
-    transition: transform 0.3s, opacity 0.3s;
+}
+@mixin generate-flex-wrap-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-wrap-values {
+          .flex-wrap-#{$breakpoint}-#{$name} {
+            flex-wrap: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-wrap-values {
+      .flex-wrap-#{$name} {
+        flex-wrap: $value ;
+      }
+    }
+  }
+}
+@mixin generate-flex-justify-content-classes($responsive: false) {
+  @each $name, $value in $flex-justify-content-values {
+    @if $responsive {
+      @each $breakpoint, $breakpoint-value in $breakpoints {
+        @media (min-width: $breakpoint-value) {
+          .f-justify-content-#{$breakpoint}-#{$name} {
+            justify-content: #{$value} !important;
+          }
+        }
+      }
+    } @else {
+      .f-justify-content-#{$name} {
+        justify-content: #{$value} !important;
+      }
+    }
   }
 }
 
-@mixin respond-to($breakpoint) {
-  @media (min-width: map-get($breakpoints, $breakpoint)) {
-    @content;
+@mixin generate-align-items-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $align-items-values {
+          .f-align-items-#{$breakpoint}-#{$name} {
+            align-items: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $align-items-values {
+      .f-align-items-#{$name} {
+        align-items: $value ;
+      }
+    }
   }
 }
+@mixin generate-flex-align-content-classes($responsive: false) {
+  @each $name, $value in $flex-align-content-values {
+    @if $responsive {
+      @each $breakpoint, $breakpoint-value in $breakpoints {
+        @media (min-width: #{$breakpoint-value}) {
+          .f-align-content-#{$breakpoint}-#{$name} {
+            align-content: #{$value} !important;
+          }
+        }
+      }
+    } @else {
+      .f-align-content-#{$name} {
+        align-content: #{$value} !important;
+      }
+    }
+  }
+}
+@mixin generate-order-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $order-values {
+          .order-#{$breakpoint}-#{$name} {
+            order: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $order-values {
+      .order-#{$name} {
+        order: $value ;
+      }
+    }
+  }
+}
+@mixin generate-flex-grow-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-grow-values {
+          .flex-grow-#{$breakpoint}-#{$name} {
+            flex-grow: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-grow-values {
+      .flex-grow-#{$name} {
+        flex-grow: $value ;
+      }
+    }
+  }
+}
+
+@mixin generate-flex-shrink-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-shrink-values {
+          .flex-shrink-#{$breakpoint}-#{$name} {
+            flex-shrink: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-shrink-values {
+      .flex-shrink-#{$name} {
+        flex-shrink: $value ;
+      }
+    }
+  }
+}
+@mixin generate-flex-basis-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-basis-values {
+          .flex-basis-#{$breakpoint}-#{$name} {
+            flex-basis: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-basis-values {
+      .flex-basis-#{$name} {
+        flex-basis: $value ;
+      }
+    }
+  }
+}
+@mixin generate-flex-classes($responsive: false) {
+  @if $responsive == true {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @media (min-width: $breakpoint-value) {
+        @each $name, $value in $flex-values {
+          .flex-#{$breakpoint}-#{$name} {
+            flex: $value ;
+          }
+        }
+      }
+    }
+  } @else {
+    @each $name, $value in $flex-values {
+      .flex-#{$name} {
+        flex: $value ;
+      }
+    }
+  }
+}
+@mixin generate-flex-align-self-classes($responsive: true) {
+  @each $name, $value in $flex-align-self-values {
+    @if $responsive {
+      @each $breakpoint, $breakpoint-value in $breakpoints {
+        @media (min-width: #{$breakpoint-value}) {
+          .f-align-self-#{$breakpoint}-#{$name} {
+            align-self: #{$value} !important;
+          }
+        }
+      }
+    } @else {
+      .f-align-self-#{$name} {
+        align-self: #{$value} !important;
+      }
+    }
+  }
+}
+@mixin generate-flex-container-helpers {
+  .flex-row {
+    flex-direction: row ;
+  }
+  .flex-column {
+    flex-direction: column ;
+  }
+  .flex-wrap {
+    flex-wrap: wrap ;
+  }
+  .flex-nowrap {
+    flex-wrap: nowrap ;
+  }
+  .flex-fill {
+    flex: 1 1 auto ;
+  }
+}
+
+
+//##########################################################################
+//###################       width and hright         #########################
+//##########################################################################
+// _mixins.scss
+
+@mixin generate-width-classes {
+  @each $unit-suffix, $unit in $units {
+    @each $size-name, $size-value in $sizes {
+      $class-name: if($unit-suffix == '', 'w-#{$size-name}', 'w-#{$size-name}#{$unit-suffix}');
+      $value: if($size-value == auto, auto, string.unquote("#{$size-value}#{$unit}"));
+      .#{$class-name} {
+        width: $value ;
+      }
+    }
+  }
+}
+@mixin generate-height-classes {
+  @each $unit-suffix, $unit in $units {
+    @each $size-name, $size-value in $sizes {
+      $class-name: if($unit-suffix == '', 'h-#{$size-name}', 'h-#{$size-name}#{$unit-suffix}');
+      $value: if($size-value == auto, auto, string.unquote("#{$size-value}#{$unit}"));
+      .#{$class-name} {
+        height: $value ;
+      }
+    }
+  }
+}
+
+// @use "sass:math";
+// @use "sass:map";
+// @use "sass:string";
+// $numberOfValues: 20;
+// $defaultFactor: 0.2;
+// $default-opacity: 0.5;
+// $lightPercentage: 2%;
+// $darkPercentage: 10%;
+
+// $lightPercentage_Hover: 5%;
+// $DarkenPercentage_Hover: 10%;
+
+// $colorMapDark: ();
+// $colorMapHoverDark: ();
+
+// @mixin classWithColor($class, $cssAttribute, $color, $important: false) {
+//   $darkenColor: darken(
+//     $color: $color,
+//     $amount: $darkPercentage,
+//   );
+
+//   $darkenColor_hover: darken(
+//     $color: $color,
+//     $amount: $DarkenPercentage_Hover,
+//   );
+
+//   $lightColor_hover: darken(
+//     $color: $color,
+//     $amount: $lightPercentage_Hover,
+//   );
+//   @if (str-index($class, "white")) {
+//     $darkenColor: #0c0c0c;
+//   }
+
+//   @if (str-index($class, "black")) {
+//     $darkenColor: #c0c0c0;
+//   }
+//   .#{$class} {
+//     @if $important {
+//       #{$cssAttribute}: $color !important;
+//     } @else {
+//       #{$cssAttribute}: $color;
+//     }
+//     &.transparent {
+//       #{$cssAttribute}: transparentize($color, $default-opacity);
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast(transparentize($color, $default-opacity));
+//       }
+//     }
+//   }
+//   .#{$class}-hover {
+//     &:hover {
+//       @if $important {
+//         #{$cssAttribute}: $lightColor_hover !important;
+//       } @else {
+//         #{$cssAttribute}: $lightColor_hover;
+//       }
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast($lightColor_hover);
+//       }
+//     }
+//     &.transparent {
+//       &:hover {
+//         @if ($important) {
+//           #{$cssAttribute}: transparentize($lightColor_hover, $default-opacity) !important;
+//         } @else {
+//           #{$cssAttribute}: transparentize($lightColor_hover, $default-opacity);
+//         }
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(transparentize($lightColor_hover, $default-opacity));
+//         }
+//       }
+//     }
+//   }
+//   .#{$class}-transparent {
+//     @if $important {
+//       #{$cssAttribute}: transparentize($color, $default-opacity) !important;
+//     } @else {
+//       #{$cssAttribute}: transparentize($color, $default-opacity);
+//     }
+//     @if (str-index($string: $class, $substring: "bg-")) {
+//       @include text-contrast(transparentize($color, $default-opacity));
+//     }
+//   }
+//   .dark {
+//     .#{$class} {
+//       #{$cssAttribute}: $darkenColor;
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast($darkenColor);
+//       }
+//       &.transparent {
+//         #{$cssAttribute}: transparentize($darkenColor, $default-opacity);
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(transparentize($darkenColor, $default-opacity));
+//         }
+//       }
+//     }
+
+//     .#{$class}-hover {
+//       &:hover {
+//         #{$cssAttribute}: $darkenColor_hover;
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(darken($darkenColor_hover, $lightPercentage_Hover * 2));
+//         }
+//       }
+//       &.transparent {
+//         &:hover {
+//           #{$cssAttribute}: transparentize($darkenColor_hover, $default-opacity);
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast(transparentize($darkenColor_hover, $default-opacity));
+//           }
+//         }
+//       }
+//     }
+
+//     .#{$class}-transparent {
+//       #{$cssAttribute}: transparentize($darkenColor_hover, $default-opacity);
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast(transparentize($darkenColor_hover, $default-opacity));
+//       }
+//     }
+//   }
+//   $colorMapDark: map.merge(
+//     $colorMapDark,
+//     (
+//       $class: (
+//         $cssAttribute: $darkenColor,
+//       ),
+//     )
+//   ) !global;
+//   $colorMapHoverDark: map.merge(
+//     $colorMapHoverDark,
+//     (
+//       $class: (
+//         $cssAttribute: $darkenColor_hover,
+//       ),
+//     )
+//   ) !global;
+
+//   .hover {
+//     &.#{$class} {
+//       &:hover {
+//         @if $important {
+//           #{$cssAttribute}: $lightColor_hover !important;
+//         } @else {
+//           #{$cssAttribute}: $lightColor_hover;
+//         }
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast($lightColor_hover);
+//         }
+//       }
+
+//       &.transparent {
+//         &:hover {
+//           @if $important {
+//             #{$cssAttribute}: transparentize($lightColor_hover, $default-opacity) !important;
+//           } @else {
+//             #{$cssAttribute}: transparentize($lightColor_hover, $default-opacity);
+//           }
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast(transparentize($lightColor_hover, $default-opacity));
+//           }
+//         }
+//       }
+//     }
+
+//     .dark {
+//       &.#{$class} {
+//         &:hover {
+//           #{$cssAttribute}: $darkenColor_hover;
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast($darkenColor_hover);
+//           }
+//         }
+
+//         &.transparent {
+//           &:hover {
+//             #{$cssAttribute}: transparentize($darkenColor_hover, $default-opacity);
+
+//             @if (str-index($string: $class, $substring: "bg-")) {
+//               @include text-contrast(transparentize($darkenColor_hover, $default-opacity));
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @mixin lighten_darken_color_variants($class, $colorProperty, $color, $important: false, $numberOfValues: $numberOfValues) {
+//   @for $i from 1 through $numberOfValues {
+//     $lightenColor: lighten($color, calc($i * $lightPercentage/2));
+//     $darkenColor: darken($lightenColor, $darkPercentage);
+
+//     $lightenColor_hover: lighten($color, calc($i * $lightPercentage_Hover/2));
+//     $darkenColor_hover: darken($lightenColor_hover, $DarkenPercentage_Hover);
+
+//     .#{$class}-#{$i} {
+//       @if $important {
+//         #{$colorProperty}: $lightenColor !important;
+//       } @else {
+//         #{$colorProperty}: $lightenColor;
+//       }
+
+//       &.transparent {
+//         @if $important {
+//           #{$colorProperty}: transparentize($lightenColor, $default-opacity) !important;
+//         } @else {
+//           #{$colorProperty}: transparentize($lightenColor, $default-opacity);
+//         }
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(transparentize($lightenColor, $default-opacity));
+//         }
+//       }
+//     }
+
+//     .#{$class}-hover-#{$i} {
+//       &:hover {
+//         @if $important {
+//           #{$colorProperty}: $lightenColor_hover !important;
+//         } @else {
+//           #{$colorProperty}: $lightenColor_hover;
+//         }
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast($lightenColor_hover);
+//         }
+//       }
+
+//       &.transparent {
+//         &:hover {
+//           @if $important {
+//             #{$colorProperty}: transparentize($lightenColor_hover, $default-opacity) !important;
+//           } @else {
+//             #{$colorProperty}: transparentize($lightenColor_hover, $default-opacity);
+//           }
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast(transparentize($lightenColor_hover, $default-opacity));
+//           }
+//         }
+//       }
+//     }
+//     .#{$class}-transparent-#{$i} {
+//       @if $important {
+//         #{$colorProperty}: transparentize($lightenColor, $default-opacity) !important;
+//       } @else {
+//         #{$colorProperty}: transparentize($lightenColor, $default-opacity);
+//       }
+
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast(transparentize($lightenColor, $default-opacity));
+//       }
+//     }
+
+//     // @if ($lightenColor !=#ffffff or $lightenColor !=white) {
+//     // }
+//     @if ($lightenColor ==#ffffff or $lightenColor ==white) {
+//       $dark-color: #0c0c0c;
+//     }
+
+//     @if ($darkenColor ==#000000 or $darkenColor ==black) {
+//       $dark-color: #c0c0c0;
+//     }
+//     .dark .#{$class}-#{$i} {
+//       #{$colorProperty}: $darkenColor;
+
+//       @if (str-index($string: $class, $substring: "bg-")) {
+//         @include text-contrast($darkenColor);
+//       }
+
+//       &.transparent {
+//         #{$colorProperty}: transparentize($darkenColor, $default-opacity);
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(transparentize($darkenColor, $default-opacity));
+//         }
+//       }
+
+//       .#{$class}-hover-#{$i} {
+//         &:hover {
+//           #{$colorProperty}: $darkenColor_hover;
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast($darkenColor_hover);
+//           }
+//         }
+
+//         &.transparent {
+//           &:hover {
+//             #{$colorProperty}: transparentize($darkenColor_hover, $default-opacity);
+
+//             @if (str-index($string: $class, $substring: "bg-")) {
+//               @include text-contrast(transparentize($darkenColor_hover, $default-opacity));
+//             }
+//           }
+//         }
+//       }
+
+//       .#{$class}-transparent-#{$i} {
+//         #{$colorProperty}: transparentize($darkenColor, $default-opacity);
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast(transparentize($darkenColor, $default-opacity));
+//         }
+//       }
+//     }
+
+//     $colorMapDark: map.merge(
+//       $colorMapDark,
+//       (
+//         #{$class}-#{$i}:
+//           (
+//             $colorProperty: $darkenColor,
+//           )
+//       )
+//     ) !global;
+//     // @if ($darkenColor !=#000000 or $darkenColor !=black) {
+//     // }
+
+//     // @if ($lightenColor_hover !=#ffffff or $lightenColor_hover !=white) {
+//     // }
+//     .hover.#{$class}-#{$i} {
+//       &:hover {
+//         #{$colorProperty}: $lightenColor_hover;
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast($lightenColor_hover);
+//         }
+//       }
+
+//       &.transparent {
+//         &:hover {
+//           #{$colorProperty}: transparentize($lightenColor_hover, $default-opacity);
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast(transparentize($lightenColor_hover, $default-opacity));
+//           }
+//         }
+//       }
+//     }
+
+//     .dark .hover.#{$class}-#{$i} {
+//       &:hover {
+//         #{$colorProperty}: $darkenColor_hover;
+
+//         @if (str-index($string: $class, $substring: "bg-")) {
+//           @include text-contrast($darkenColor_hover);
+//         }
+//       }
+
+//       &.transparent {
+//         &:hover {
+//           #{$colorProperty}: transparentize($darkenColor_hover, $default-opacity);
+
+//           @if (str-index($string: $class, $substring: "bg-")) {
+//             @include text-contrast(transparentize($darkenColor_hover, $default-opacity));
+//           }
+//         }
+//       }
+//     }
+
+//     $colorMapHoverDark: map.merge(
+//       $colorMapHoverDark,
+//       (
+//         #{$class}-#{$i}:
+//           (
+//             $colorProperty: $darkenColor_hover,
+//           )
+//       )
+//     ) !global;
+//     // @if ($darkenColor_hover !=#000000 or $darkenColor_hover !=black) {
+//     // }
+//   }
+// }
+
+// @mixin lighten_darken_color_variants_with_2Values($class, $colorProperty, $value, $color, $numberOfValues: $numberOfValues) {
+//   @for $i from 1 through $numberOfValues {
+//     $lightColor: lighten($color, $i * $lightPercentage);
+//     $darkColor: darken($color, $i * $darkPercentage);
+
+//     $lightColor_hover: lighten($color, $i * $lightPercentage_Hover);
+//     $darkColor_hover: darken($color, $i * $DarkenPercentage_Hover);
+
+//     // @if ($lightColor !=#ffffff or $lightColor !=white) {
+//     // }
+//     .#{$class}-#{$i} {
+//       #{$colorProperty}: $value $lightColor;
+
+//       &.transparent {
+//         #{$colorProperty}: transparentize($value, $default-opacity) transparentize($lightColor, $default-opacity);
+//       }
+//     }
+
+//     @if ($darkColor !=#000000 or $darkColor !=black) {
+//       .dark .#{$class}-#{$i} {
+//         #{$colorProperty}: $value $darkColor;
+
+//         &.transparent {
+//           #{$colorProperty}: transparentize($value, $default-opacity) transparentize($darkColor, $default-opacity);
+//         }
+//       }
+
+//       $colorMapDark: map.merge(
+//         $colorMapDark,
+//         (
+//           #{$class}-#{$i}:
+//             (
+//               $colorProperty: (
+//                 $value: $darkColor,
+//               ),
+//             )
+//         )
+//       ) !global;
+//     }
+
+//     @if ($lightColor_hover !=#ffffff or $lightColor_hover !=white) {
+//       .hover {
+//         &.#{$class}-#{$i} {
+//           &:hover {
+//             #{$colorProperty}: $value $lightColor_hover;
+//           }
+
+//           &.transparent {
+//             #{$colorProperty}: transparentize($value, $default-opacity) transparentize($lightColor_hover, $default-opacity);
+//           }
+//         }
+//       }
+//     }
+
+//     @if ($darkColor_hover !=#000000 or $darkColor_hover !=black) {
+//       .dark .hover {
+//         &.#{$class}-#{$i} {
+//           &:hover {
+//             #{$colorProperty}: $value $darkColor_hover;
+//           }
+
+//           &.transparent {
+//             #{$colorProperty}: transparentize($value, $default-opacity) transparentize($darkColor_hover, $default-opacity);
+//           }
+//         }
+//       }
+//       $colorMapHoverDark: map.merge(
+//         $colorMapHoverDark,
+//         (
+//           #{$class}-#{$i}:
+//             (
+//               $colorProperty: (
+//                 $value: $darkColor_hover,
+//               ),
+//             )
+//         )
+//       ) !global;
+//     }
+//   }
+// }
+
+// @mixin addMediaPrefersColorDark() {
+//   @media (prefers-color-scheme: dark) {
+//     @each $key, $value in $colorMapDark {
+//       .#{$key} {
+//         @include setStyleForPerefer_color_scheme($value);
+//         &.transparent {
+//           @include setTranpaentValue($value);
+//         }
+//       }
+//     }
+
+//     @each $key, $value in $colorMapHoverDark {
+//       .hover {
+//         &.#{$key} {
+//           &:hover {
+//             @include setStyleForPerefer_color_scheme($value);
+//           }
+//           &.transparent {
+//             @include setTranpaentValue($value);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @mixin propertyWithZero($prfix, $cssClass) {
+//   .#{$prfix}-0 {
+//     #{$cssClass}: 0;
+//   }
+// }
+
+// @mixin utility($prfix, $defaultValue, $cssClass, $devisionFactor: $defaultFactor, $optionalPrefix: 0, $numberOfValues: $numberOfValues) {
+//   // @include propertyWithZero($prfix, $cssClass);
+
+//   @for $i from 0 through $numberOfValues {
+//     @if $optionalPrefix !=0 {
+//       .#{$prfix}-#{$devisionFactor * $i * $optionalPrefix} {
+//         #{$cssClass}: $defaultValue * $i * $devisionFactor;
+//       }
+//     } @else {
+//       .#{$prfix}-#{$i} {
+//         #{$cssClass}: $defaultValue * $i * $devisionFactor;
+//       }
+//     }
+//   }
+// }
+
+// @mixin utility_with_2_properties($prfix, $defaultValue, $cssClass1, $cssClass2, $devisionFactor: $defaultFactor, $optionalPrefix: 0, $numberOfValues: $numberOfValues) {
+//   .#{$prfix}-0 {
+//     #{$cssClass1}: 0;
+//     #{$cssClass2}: 0;
+//   }
+
+//   @for $i from 1 through $numberOfValues {
+//     @if $optionalPrefix !=0 {
+//       .#{$prfix}-#{$devisionFactor * $i * $optionalPrefix} {
+//         #{$cssClass1}: $defaultValue * $i * $devisionFactor;
+//         #{$cssClass2}: $defaultValue * $i * $devisionFactor;
+//       }
+//     } @else {
+//       .#{$prfix}-#{$i} {
+//         #{$cssClass1}: $defaultValue * $i * $devisionFactor;
+//         #{$cssClass2}: $defaultValue * $i * $devisionFactor;
+//       }
+//     }
+//   }
+// }
+
+// @mixin utility_for_color($prfix, $className, $cssProperty, $value, $important: false, $numberOfValues: $numberOfValues) {
+//   // .#{$prfix}-#{$className} {
+//   //   @if $important {
+//   //     #{$cssProperty}: $value !important;
+//   //   } @else {
+//   //     #{$cssProperty}: $value;
+//   //   }
+//   // }
+//   @include classWithColor(#{$prfix}-#{$className}, $cssProperty, $value, $important);
+//   @include lighten_darken_color_variants($prfix + "-" + $className, $cssProperty, $value, $important, $numberOfValues);
+// }
+
+// @mixin utitli_for_color_with_2_values($prfix, $className, $cssProperty, $value, $color) {
+//   .#{$prfix}-#{$className} {
+//     #{$cssProperty}: $value $color;
+//   }
+
+//   @include lighten_darken_color_variants_with_2Values($prfix + "-" + $className, $cssProperty, $value, $color);
+// }
+
+// @mixin utility_for_color_for_4_sides($prefix, $className, $firstCssProperty_part, $secondCssProperty_part, $value, $important: false, $numberOfValues: $numberOfValues) {
+//   @include utility_for_color($prefix, $className, #{$firstCssProperty_part}-#{$secondCssProperty_part}, $value, $important, $numberOfValues);
+//   @include utility_for_color($prefix + "t", $className, #{$firstCssProperty_part}-top-#{$secondCssProperty_part}, $value, $important, $numberOfValues);
+
+//   @include utility_for_color($prefix + "r", $className, #{$firstCssProperty_part}-right-#{$secondCssProperty_part}, $value, $important, $numberOfValues);
+
+//   @include utility_for_color($prefix + "b", $className, #{$firstCssProperty_part}-bottom-#{$secondCssProperty_part}, $value, $important, $numberOfValues);
+
+//   @include utility_for_color($prefix + "l", $className, #{$firstCssProperty_part}-left-#{$secondCssProperty_part}, $value, $important, $numberOfValues);
+// }
+
+// @mixin utility_with_4_sides($prfix, $defaultValue, $firstCssProperty_part, $secondCssProperty_part, $devisionFactor: $defaultFactor, $optionalPrefix: 0, $numberOfValues: $numberOfValues) {
+//   @include utility($prfix, $defaultValue, returnCssProperty($firstCssProperty_part, "all", $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "t", $defaultValue, returnCssProperty($firstCssProperty_part, top, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "r", $defaultValue, returnCssProperty($firstCssProperty_part, right, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "b", $defaultValue, returnCssProperty($firstCssProperty_part, bottom, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "l", $defaultValue, returnCssProperty($firstCssProperty_part, left, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+// }
+
+// @mixin utility_with_4_Corners($prfix, $defaultValue, $firstCssProperty_part, $secondCssProperty_part, $devisionFactor: $defaultFactor, $optionalPrefix: 0, $numberOfValues: $numberOfValues) {
+//   @include utility($prfix, $defaultValue, returnCssProperty($firstCssProperty_part, "all", $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "tl", $defaultValue, returnCssProperty($firstCssProperty_part, top - left, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "tr", $defaultValue, returnCssProperty($firstCssProperty_part, top - right, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "bl", $defaultValue, returnCssProperty($firstCssProperty_part, bottom - left, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+//   @include utility($prfix + "br", $defaultValue, returnCssProperty($firstCssProperty_part, bottom - right, $secondCssProperty_part), $devisionFactor, $optionalPrefix, $numberOfValues);
+// }
+
+// @function returnCssProperty($firstCssProperty_part, $middlePart, $secondCssProperty_part) {
+//   @if ($secondCssProperty_part == "" and $middlePart == "all") {
+//     @return $firstCssProperty_part;
+//   } @else if ($secondCssProperty_part== "" and $middlePart != "all") {
+//     @return $firstCssProperty_part - $middlePart;
+//   } @else if ($secondCssProperty_part != "" and $middlePart == "all") {
+//     @return $firstCssProperty_part - $secondCssProperty_part;
+//   } @else {
+//     @return $firstCssProperty_part - $middlePart - $secondCssProperty_part;
+//   }
+// }
+
+// //Shadow
+// @mixin elevation-level($level) {
+//   $z: $level;
+
+//   .elevation-#{$z} {
+//     box-shadow: 0 calc(($level * 10px / $numberOfValues)) calc(($level * 12px / $numberOfValues)) calc(($level * -11px / $numberOfValues)) rgba(0, 0, 0, 0.2),
+//       0 calc(($level * 16px / $numberOfValues)) calc(($level * 16px / $numberOfValues)) calc(($level * 1.6px / $numberOfValues)) rgba(0, 0, 0, 0.14), 0 calc(($level * 8px / $numberOfValues)) calc(($level * 30px / $numberOfValues)) calc(($level * 1.3px / $numberOfValues)) rgba(0, 0, 0, 0.16);
+//   }
+// }
+
+// @mixin elevation($level: $numberOfValues) {
+//   @for $i from 0 through $level {
+//     @include elevation-level($i);
+//   }
+// }
+
+// @mixin setTranpaentValue($value) {
+//   @each $colorProf, $colorValue in $value {
+//     @if type-of($colorValue) == "map" {
+//       @each $color1, $color2 in $colorValue {
+//         #{$colorProf}: transparentize($color1, $default-opacity) transparentize($color2, $default-opacity);
+//       }
+//     } @else {
+//       #{$colorProf}: transparentize($colorValue, $default-opacity);
+//     }
+//   }
+// }
+// @mixin setStyleForPerefer_color_scheme($value) {
+//   @each $colorProf, $colorValue in $value {
+//     @if type-of($colorValue) == "map" {
+//       @each $color1, $color2 in $colorValue {
+//         #{$colorProf}: $color1 $color2;
+//       }
+//     } @else {
+//       #{$colorProf}: $colorValue;
+//       @if (str-index($string: $colorProf, $substring: "background")) {
+//         @include text-contrast($colorValue);
+//       }
+//     }
+//   }
+// }
+
+// @mixin text-contrast($n) {
+//   $color-brightness: round(calc((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000));
+//   $light-color: round(calc((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000));
+
+//   @if abs($color-brightness) < (calc($light-color/2)) {
+//     color: #f0f0f0 !important;
+//   } @else {
+//     color: #0c0c0c !important;
+//   }
+// }
+
+
+
+// @mixin ripple-effect {
+//   position: relative;
+//   overflow: hidden;
+//   z-index: 0;
+
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     width: 0.5rem;
+//     height: 0.5rem;
+//     background: rgba(0, 0, 0, 0.1);
+//     border-radius: 50%;
+//     transform: translate(-50%, -50%) scale(0);
+//     opacity: 0;
+//     pointer-events: none;
+//     transition: transform 0.3s, opacity 0.3s;
+//   }
+
+//   &:active::after {
+//     transform: translate(-50%, -50%) scale(4);
+//     opacity: 1;
+//     transition: transform 0.3s, opacity 0.3s;
+//   }
+// }
+// .ripple{
+//   @include ripple-effect;
+// }

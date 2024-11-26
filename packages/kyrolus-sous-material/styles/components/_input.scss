@@ -1,39 +1,39 @@
-// components/_input.scss
+// // components/_input.scss
 
-.input-field {
-  position: relative;
-  margin-bottom: rem($spacing-unit * 2);
+// .input-field {
+//   position: relative;
+//   margin-bottom: rem($spacing-unit * 2);
 
-  .input-field__input {
-    width: 100%;
-    padding: rem($spacing-unit) 0;
-    font-size: rem($font-size-base);
-    border: none;
-    border-bottom: 1px solid rgba($color-on-surface, 0.38);
-    background-color: transparent;
-    color: $color-on-surface;
-    transition: border-color 0.3s;
+//   .input-field__input {
+//     width: 100%;
+//     padding: rem($spacing-unit) 0;
+//     font-size: rem($default-font-size);
+//     border: none;
+//     border-bottom: 1px solid rgba($color-on-surface, 0.38);
+//     background-color: transparent;
+//     color: $color-on-surface;
+//     transition: border-color 0.3s;
 
-    &:focus {
-      outline: none;
-      border-bottom-color: $color-primary;
-    }
+//     &:focus {
+//       outline: none;
+//       border-bottom-color: $color-primary;
+//     }
 
-    &:focus + .input-field__label,
-    &:not(:placeholder-shown) + .input-field__label {
-      transform: translateY(-100%);
-      font-size: rem($font-size-base * 0.75);
-      color: $color-primary;
-    }
-  }
+//     &:focus + .input-field__label,
+//     &:not(:placeholder-shown) + .input-field__label {
+//       transform: translateY(-100%);
+//       font-size: rem($default-font-size * 0.75);
+//       color: $color-primary;
+//     }
+//   }
 
-  .input-field__label {
-    position: absolute;
-    top: rem($spacing-unit * 1.5);
-    left: 0;
-    font-size: rem($font-size-base);
-    color: rgba($color-on-surface, 0.6);
-    pointer-events: none;
-    transition: transform 0.3s, font-size 0.3s, color 0.3s;
-  }
-}
+//   .input-field__label {
+//     position: absolute;
+//     top: rem($spacing-unit * 1.5);
+//     left: 0;
+//     font-size: rem($default-font-size);
+//     color: rgba($color-on-surface, 0.6);
+//     pointer-events: none;
+//     transition: transform 0.3s, font-size 0.3s, color 0.3s;
+//   }
+// }

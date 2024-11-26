@@ -1,17 +1,15 @@
-body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  font-weight: $font-weight-regular;
-  color: $color-on-background;
-  background-color: $color-background;
-  line-height: 1.5;
-}
+// body {
+//   font-family: $default-font-family;
+//   font-size: $default-font-size;
+//   font-weight: $font-weight-regular;
+//   line-height: 1.5;
+// }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: $font-weight-medium;
-  margin-bottom: rem($spacing-unit);
-}
+// h1, h2, h3, h4, h5, h6 {
+//   font-weight: $font-weight-medium;
+//   margin-bottom: rem($spacing-unit);
+// }
 
-p {
-  margin-bottom: rem($spacing-unit * 1.5);
-}
+// p {
+//   margin-bottom: rem($spacing-unit * 1.5);
+// }
