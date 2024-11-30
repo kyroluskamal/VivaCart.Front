@@ -1,26 +1,59 @@
-// @mixin generate-spacing-classes($property, $class-prefix) {
-//   @for $i from 0 through 5 {
-//     .#{$class-prefix}-#{$i} {
-//       #{$property}: rem($i * $spacing-unit);
-//     }
+@use "sass:meta";
+$spacer: 1rem;
 
-//     .#{$class-prefix}t-#{$i} {
-//       #{$property}-top: rem($i * $spacing-unit);
-//     }
+// Sizes for margin/padding
+$sizes: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  auto: auto,
+);
 
-//     .#{$class-prefix}r-#{$i} {
-//       #{$property}-right: rem($i * $spacing-unit);
-//     }
+// Properties to generate
+$properties: (
+  m: margin,
+  p: padding,
+);
 
-//     .#{$class-prefix}b-#{$i} {
-//       #{$property}-bottom: rem($i * $spacing-unit);
-//     }
+// Sides to generate
+$sides: (
+  t: top,
+  b: bottom,
+  l: left,
+  r: right,
+  x: (
+    left,
+    right,
+  ),
+  y: (
+    top,
+    bottom,
+  ),
+  null: null // For all sides,,,,,
+);
 
-//     .#{$class-prefix}l-#{$i} {
-//       #{$property}-left: rem($i * $spacing-unit);
-//     }
-//   }
-// }
-
-// @include generate-spacing-classes('margin', 'm');
-// @include generate-spacing-classes('padding', 'p');
+@each $prop, $css-prop in $properties {
+  @each $side, $css-side in $sides {
+    @each $size, $value in $sizes {
+      // Generate the class name
+      @if $side == null {
+        .#{$prop}-#{$size} {
+          #{$css-prop}: $value !important;
+        }
+      } @else if meta.type-of($css-side) == list {
+        .#{$prop}#{$side}-#{$size} {
+          @each $individual-side in $css-side {
+            #{$css-prop}-#{$individual-side}: $value !important;
+          }
+        }
+      } @else {
+        .#{$prop}#{$side}-#{$size} {
+          #{$css-prop}-#{$css-side}: $value !important;
+        }
+      }
+    }
+  }
+}

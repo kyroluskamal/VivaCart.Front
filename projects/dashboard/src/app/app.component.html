@@ -1,16 +1,33 @@
-<ks-dashboard-layout [sidebarMode]="sidebarMode()" class="dashboard-bg">
-  <ks-side-nav
-    class="bg-white"
-    [(open)]="openSideBar"
-    class="elevation-2 bg-white"
-  >
+<ks-dashboard-layout [sidebarMode]="sidebarMode()" class="bg-grey-38">
+  <ks-side-nav logo="img/vivacart.png" [(open)]="openSideBar" class="elevation-1 bg-white">
+    <ks-accordion-container>
+      <ks-accordion-item>
+        <ks-accordion-item>
+          <ks-accordion-header>
+
+            <span>Home</span>
+          </ks-accordion-header>
+          <ks-accordion-content>
+            fsdfsdfs
+          </ks-accordion-content>
+        </ks-accordion-item>
+      </ks-accordion-item>
+    </ks-accordion-container>
   </ks-side-nav>
-  <ks-navbar-container class="elevation-2 bg-white">
-    <ks-navbar-row>
+  <ks-navbar-container class="elevation-1 bg-white">
+    <ks-navbar-row class="navbar-height p-1">
       <button (click)="openSideBar.set(!openSideBar())">btn</button>
     </ks-navbar-row>
   </ks-navbar-container>
   <ks-dashboard-content>
     <router-outlet></router-outlet>
+
+    <div class="d-inline-flex flex-column gap-2 ">
+      <button ksButton appearance="primary" size="sm" class="">Small Primary</button>
+      <button ksButton appearance="secondary" size="med" variant="ghost">Medium Secondary</button>
+      <button ksButton appearance="success" size="lg" variant="solid">Large Tertiary</button>
+      <button ksButton appearance="primary" variant="outline">Outline</button>
+      <button ksButton appearance="primary" [disabled]="true">Disabled</button>
+    </div>
   </ks-dashboard-content>
 </ks-dashboard-layout>

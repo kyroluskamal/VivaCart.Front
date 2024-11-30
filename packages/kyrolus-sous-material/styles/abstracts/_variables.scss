@@ -9,21 +9,36 @@ $elevation-6: 0px 6px 12px rgba(0, 0, 0, 0.22), 0px 6px 10px rgba(0, 0, 0, 0.12)
 $elevation-7: 0px 7px 14px rgba(0, 0, 0, 0.24), 0px 7px 12px rgba(0, 0, 0, 0.1);
 $elevation-8: 0px 8px 16px rgba(0, 0, 0, 0.26), 0px 8px 14px rgba(0, 0, 0, 0.08);
 $elevation-9: 0px 9px 18px rgba(0, 0, 0, 0.28), 0px 9px 16px rgba(0, 0, 0, 0.06);
-$elevation-10: 0px 10px 20px rgba(0, 0, 0, 0.3), 0px 10px 18px rgba(0, 0, 0, 0.04);
-$elevation-11: 0px 11px 22px rgba(0, 0, 0, 0.32), 0px 11px 20px rgba(0, 0, 0, 0.02);
-$elevation-12: 0px 12px 24px rgba(0, 0, 0, 0.34), 0px 12px 22px rgba(0, 0, 0, 0.01);
-$elevation-13: 0px 13px 26px rgba(0, 0, 0, 0.36), 0px 13px 24px rgba(0, 0, 0, 0.009);
-$elevation-14: 0px 14px 28px rgba(0, 0, 0, 0.38), 0px 14px 26px rgba(0, 0, 0, 0.008);
-$elevation-15: 0px 15px 30px rgba(0, 0, 0, 0.4), 0px 15px 28px rgba(0, 0, 0, 0.007);
-$elevation-16: 0px 16px 32px rgba(0, 0, 0, 0.42), 0px 16px 30px rgba(0, 0, 0, 0.006);
-$elevation-17: 0px 17px 34px rgba(0, 0, 0, 0.44), 0px 17px 32px rgba(0, 0, 0, 0.005);
-$elevation-18: 0px 18px 36px rgba(0, 0, 0, 0.46), 0px 18px 34px rgba(0, 0, 0, 0.004);
-$elevation-19: 0px 19px 38px rgba(0, 0, 0, 0.48), 0px 19px 36px rgba(0, 0, 0, 0.003);
-$elevation-20: 0px 20px 40px rgba(0, 0, 0, 0.5), 0px 20px 38px rgba(0, 0, 0, 0.002);
-$elevation-21: 0px 21px 42px rgba(0, 0, 0, 0.52), 0px 21px 40px rgba(0, 0, 0, 0.001);
-$elevation-22: 0px 22px 44px rgba(0, 0, 0, 0.54), 0px 22px 42px rgba(0, 0, 0, 0.0009);
-$elevation-23: 0px 23px 46px rgba(0, 0, 0, 0.56), 0px 23px 44px rgba(0, 0, 0, 0.0008);
-$elevation-24: 0px 24px 48px rgba(0, 0, 0, 0.58), 0px 24px 46px rgba(0, 0, 0, 0.0007);
+$elevation-10: 0px 10px 20px rgba(0, 0, 0, 0.3),
+  0px 10px 18px rgba(0, 0, 0, 0.04);
+$elevation-11: 0px 11px 22px rgba(0, 0, 0, 0.32),
+  0px 11px 20px rgba(0, 0, 0, 0.02);
+$elevation-12: 0px 12px 24px rgba(0, 0, 0, 0.34),
+  0px 12px 22px rgba(0, 0, 0, 0.01);
+$elevation-13: 0px 13px 26px rgba(0, 0, 0, 0.36),
+  0px 13px 24px rgba(0, 0, 0, 0.009);
+$elevation-14: 0px 14px 28px rgba(0, 0, 0, 0.38),
+  0px 14px 26px rgba(0, 0, 0, 0.008);
+$elevation-15: 0px 15px 30px rgba(0, 0, 0, 0.4),
+  0px 15px 28px rgba(0, 0, 0, 0.007);
+$elevation-16: 0px 16px 32px rgba(0, 0, 0, 0.42),
+  0px 16px 30px rgba(0, 0, 0, 0.006);
+$elevation-17: 0px 17px 34px rgba(0, 0, 0, 0.44),
+  0px 17px 32px rgba(0, 0, 0, 0.005);
+$elevation-18: 0px 18px 36px rgba(0, 0, 0, 0.46),
+  0px 18px 34px rgba(0, 0, 0, 0.004);
+$elevation-19: 0px 19px 38px rgba(0, 0, 0, 0.48),
+  0px 19px 36px rgba(0, 0, 0, 0.003);
+$elevation-20: 0px 20px 40px rgba(0, 0, 0, 0.5),
+  0px 20px 38px rgba(0, 0, 0, 0.002);
+$elevation-21: 0px 21px 42px rgba(0, 0, 0, 0.52),
+  0px 21px 40px rgba(0, 0, 0, 0.001);
+$elevation-22: 0px 22px 44px rgba(0, 0, 0, 0.54),
+  0px 22px 42px rgba(0, 0, 0, 0.0009);
+$elevation-23: 0px 23px 46px rgba(0, 0, 0, 0.56),
+  0px 23px 44px rgba(0, 0, 0, 0.0008);
+$elevation-24: 0px 24px 48px rgba(0, 0, 0, 0.58),
+  0px 24px 46px rgba(0, 0, 0, 0.0007);
 
 // _variables.scss
 
@@ -42,16 +57,46 @@ $display-values: (
   list-item: list-item,
   contents: contents,
 );
+$primay-color: #538fac;
+$secondary-color: #ea9845;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$info-color: $primay-color;
+$dark-color: #353535;
+$grey-color: #1b1919;
+$white: #ffffff;
+$tertiary: #363d48;
+
+// الألوان الرئيسية والثانوية والرسائل
+$colors: (
+  "primary": $primay-color,
+  "secondary": $secondary-color,
+  "success": $success-color,
+  "error": $danger-color,
+  "warning": $warning-color,
+  "info": $info-color,
+  "neutral-light": #cfcbc2,
+  "grey": $grey-color,
+  "tertiary": $tertiary,
+  "dark": $dark-color,
+);
 
 // _variables.scss (continued)
 
 $breakpoints: (
-  xs: 0,        // Extra small devices (portrait phones)
-  sm: 576px,    // Small devices (landscape phones)
-  md: 768px,    // Medium devices (tablets)
-  lg: 992px,    // Large devices (desktops)
-  xl: 1200px,   // Extra large devices (large desktops)
-  xxl: 1400px,  // Extra extra large devices
+  xs: 0,
+  // Extra small devices (portrait phones)
+  sm: 576px,
+  // Small devices (landscape phones)
+  md: 768px,
+  // Medium devices (tablets)
+  lg: 992px,
+  // Large devices (desktops)
+  xl: 1200px,
+  // Extra large devices (large desktops)
+  xxl: 1400px,
+  // Extra extra large devices
 );
 
 //##########################################################################
@@ -125,13 +170,13 @@ $flex-shrink-values: (
 $flex-basis-values: (
   auto: auto,
   0: 0,
-  '25': 25%,
-  '50': 50%,
-  '75': 75%,
-  '100': 100%,
+  "25": 25%,
+  "50": 50%,
+  "75": 75%,
+  "100": 100%,
 );
 $flex-values: (
-  '1': 1 1 0%,
+  "1": 1 1 0%,
   auto: 1 1 auto,
   initial: 0 1 auto,
   none: 0 0 auto,
@@ -152,11 +197,13 @@ $sizes: (
   20: 20,
   25: 25,
   30: 30,
-  33: 33.3333,  // One-third
+  33: 33.3333,
+  // One-third
   40: 40,
   50: 50,
   60: 60,
-  66: 66.6667,  // Two-thirds
+  66: 66.6667,
+  // Two-thirds
   70: 70,
   75: 75,
   80: 80,
@@ -166,16 +213,16 @@ $sizes: (
   auto: auto,
 );
 $units: (
-  '': '%',     // Empty string for percentage
-  'px': 'px',
-  'em': 'em',
-  'rem': 'rem',
-  'vw': 'vw',
-  'vh': 'vh',
-  'vmin': 'vmin',
-  'vmax': 'vmax',
+  "": "%",
+  // Empty string for percentage
+  "px": "px",
+  "em": "em",
+  "rem": "rem",
+  "vw": "vw",
+  "vh": "vh",
+  "vmin": "vmin",
+  "vmax": "vmax",
 );
-
 
 // //General Variables
 // //borders

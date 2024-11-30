@@ -1,51 +1,60 @@
-@use 'sass:map';
-@use 'sass:color';
+@use "sass:map";
+@use "sass:color";
+@use "variables" as *;
 
-$primay-color: #538fac;
-$secondary-color: #ea9845;
-$success-color: #28a745;
-$danger-color: #dc3545;
-$warning-color: #ffc107;
-$info-color: #538fac;
-$dark-color: #353535;
-$grey-color: #d8d8d8;
-$white: #ffffff;
-
-
-// الألوان الرئيسية والثانوية والرسائل
-$colors: (
-  "primary": #538fac,
-  "secondary": #ea9845,
-  "success": #28a745,
-  "error": #dc3545,
-  "warning": #ffc107,
-  "info": #538fac,
-  "neutral-light": #cfcbc2,
-  "grey": #212121,
-  "tertiary": #363d48,
-);
-
-
-@for $i from 0 through 10 {
+@for $i from 0 through 40 {
   .opacity-#{$i * 10} {
     opacity: $i * 10 * 1%;
   }
 
   @each $name, $color in $colors {
     .bg-#{$name}-#{$i} {
-      background-color: color.change($color, $lightness: ($i * 10) * 1% );
+      background-color: color.change($color, $lightness: ($i * 2.5) * 1%);
     }
     .text-#{$name}-#{$i} {
-      color: color.change($color, $lightness: ($i * 10) * 1% );
+      color: color.change($color, $lightness: ($i * 2.5) * 1%);
     }
 
     .br-#{$name}-#{$i} {
-      border-color: color.change($color, $lightness: ($i * 10) * 1%);
+      border-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+    .outline-#{$name}-#{$i} {
+      outline-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .fill-#{$name}-#{$i} {
+      fill: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-x-#{$name}-#{$i} {
+      border-right-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+      border-left-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-y-#{$name}-#{$i} {
+      border-top-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+      border-bottom-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-t-#{$name}-#{$i} {
+      border-top-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-r-#{$name}-#{$i} {
+      border-right-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-b-#{$name}-#{$i} {
+      border-bottom-color: color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
+
+    .br-l-#{$name}-#{$i} {
+      border-left-color: color.change($color, $lightness: ($i * 2.5) * 1%);
     }
   }
 }
 
-@each $name , $color in $colors {
+@each $name, $color in $colors {
   .bg-#{$name} {
     background-color: $color;
   }

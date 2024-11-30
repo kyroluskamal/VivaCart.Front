@@ -1,4 +1,5 @@
-// @use "sass:math";
+@use "sass:map";
+@use "sass:meta";
 @use "../abstracts/variables" as *;
 // _variables.scss
 
@@ -89,84 +90,68 @@ $position-offsets: (
     }
   }
 }
-@mixin generate-position-classes-responsive {
-  @each $breakpoint, $breakpoint-value in $breakpoints {
-    @media (min-width: #{$breakpoint-value}) {
-      @each $name, $value in $position-values {
-        .#{$breakpoint}-pos-#{$name} {
-          position: #{$value} !important;
+@each $breakpoint, $breakpoint-value in $breakpoints {
+  @media (min-width: #{$breakpoint-value}) {
+    @each $name, $value in $position-values {
+      .position-#{$breakpoint}-#{$name} {
+        position: #{$value} !important;
+      }
+    }
+    @each $direction in top, right, bottom, left {
+      @each $size-name, $size-value in $position-offsets {
+        .#{$direction}-#{$breakpoint}-#{$size-name} {
+          #{$direction}: #{$size-value} !important;
+        }
+      }
+    }
+    @each $name, $value in $z-index-values {
+      .z-#{$breakpoint}#{$name} {
+        z-index: #{$value} !important;
+      }
+    }
+    @each $name, $value in $overflow-values {
+      .overflow-#{$breakpoint}-#{$name} {
+        overflow: #{$value} !important;
+      }
+    }
+    @each $axis, $values in (x: $overflow-x-values, y: $overflow-y-values) {
+      @each $name, $value in $values {
+        .overflow-#{$breakpoint}-#{$axis}-#{$name} {
+          overflow-#{$axis}: #{$value} !important;
         }
       }
     }
   }
 }
-
-@mixin generate-position-offset-classes-responsive {
-  @each $breakpoint, $breakpoint-value in $breakpoints {
-    @media (min-width: #{$breakpoint-value}) {
-      @each $direction in top, right, bottom, left {
-        @each $size-name, $size-value in $position-offsets {
-          .#{$breakpoint}-#{$direction}-#{$size-name} {
-            #{$direction}: #{$size-value} !important;
-          }
-        }
-      }
+@each $name, $value in $position-values {
+  .position-#{$name} {
+    position: #{$value} !important;
+  }
+}
+@each $direction in top, right, bottom, left {
+  @each $size-name, $size-value in $position-offsets {
+    .#{$direction}-#{$size-name} {
+      #{$direction}: #{$size-value} !important;
     }
   }
 }
-
-@mixin generate-z-index-classes-responsive {
-  @each $breakpoint, $breakpoint-value in $breakpoints {
-    @media (min-width: #{$breakpoint-value}) {
-      @each $name, $value in $z-index-values {
-        .#{$breakpoint}-z-#{$name} {
-          z-index: #{$value} !important;
-        }
-      }
+@each $name, $value in $z-index-values {
+  .z-#{$name} {
+    z-index: #{$value} !important;
+  }
+}
+@each $name, $value in $overflow-values {
+  .overflow-#{$name} {
+    overflow: #{$value} !important;
+  }
+}
+@each $axis, $values in (x: $overflow-x-values, y: $overflow-y-values) {
+  @each $name, $value in $values {
+    .overflow-#{$axis}-#{$name} {
+      overflow-#{$axis}: #{$value} !important;
     }
   }
 }
-@mixin generate-overflow-classes-responsive {
-  @each $breakpoint, $breakpoint-value in $breakpoints {
-    @media (min-width: #{$breakpoint-value}) {
-      @each $name, $value in $overflow-values {
-        .#{$breakpoint}-overflow-#{$name} {
-          overflow: #{$value} !important;
-        }
-      }
-    }
-  }
-}
-
-@mixin generate-overflow-axis-classes-responsive {
-  @each $breakpoint, $breakpoint-value in $breakpoints {
-    @media (min-width: #{$breakpoint-value}) {
-      @each $axis, $values in (x: $overflow-x-values, y: $overflow-y-values) {
-        @each $name, $value in $values {
-          .#{$breakpoint}-overflow-#{$axis}-#{$name} {
-            overflow-#{$axis}: #{$value} !important;
-          }
-        }
-      }
-    }
-  }
-}
-@include generate-position-classes;
-@include generate-position-offset-classes;
-@include generate-z-index-classes;
-
-// توليد فئات Overflow غير الاستجابية
-@include generate-overflow-classes;
-@include generate-overflow-axis-classes;
-
-// توليد الفئات الاستجابية لـ Position
-@include generate-position-classes-responsive;
-@include generate-position-offset-classes-responsive;
-@include generate-z-index-classes-responsive;
-
-// توليد الفئات الاستجابية لـ Overflow
-@include generate-overflow-classes-responsive;
-@include generate-overflow-axis-classes-responsive;
 // //padding
 // @include utility("p", $default-padding, "padding");
 // @include utility("pl", $default-padding, "padding-left");
@@ -216,465 +201,443 @@ $position-offsets: (
 // //square
 // @include utility_with_2_properties("square", 100px, "width", "height", 1, 100);
 
-// $utilities: (
-//   "border": (
-//     "prefix": "b",
-//     "values": (
-//       "none": none,
-//     ),
-//   ),
-//   "border-radius": (
-//     "prefix": "br",
-//     "values": (
-//       "pill": 50rem,
-//       "full": 50%,
-//     ),
-//   ),
-//   "border-top-left-radius": (
-//     "prefix": "br-tl",
-//     "values": (
-//       "pill": 50rem,
-//       "full": 50%,
-//     ),
-//   ),
-//   "border-bottom-left-radius": (
-//     "prefix": "br-bl",
-//     "values": (
-//       "pill": 50rem,
-//       "full": 50%,
-//     ),
-//   ),
-//   "border-bottom-right-radius": (
-//     "prefix": "br-br",
-//     "values": (
-//       "pill": 50rem,
-//       "full": 50%,
-//     ),
-//   ),
-//   "border-top-right-radius": (
-//     "prefix": "br-tr",
-//     "values": (
-//       "pill": 50rem,
-//       "full": 50%,
-//     ),
-//   ),
-//   "border-style": (
-//     "prefix": "bs",
-//     "values": (
-//       "solid": solid,
-//       "dashed": dashed,
-//       "dotted": dotted,
-//       "double": double,
-//       "none": none,
-//     ),
-//   ),
-//   "border-bottom-style": (
-//     "prefix": "bs-b",
-//     "values": (
-//       "solid": solid,
-//       "dashed": dashed,
-//       "dotted": dotted,
-//       "double": double,
-//       "none": none,
-//     ),
-//   ),
-//   "border-top-style": (
-//     "prefix": "bs-t",
-//     "values": (
-//       "solid": solid,
-//       "dashed": dashed,
-//       "dotted": dotted,
-//       "double": double,
-//       "none": none,
-//     ),
-//   ),
-//   "border-left-style": (
-//     "prefix": "bs-l",
-//     "values": (
-//       "solid": solid,
-//       "dashed": dashed,
-//       "dotted": dotted,
-//       "double": double,
-//       "none": none,
-//     ),
-//   ),
-//   "border-right-style": (
-//     "prefix": "bs-r",
-//     "values": (
-//       "solid": solid,
-//       "dashed": dashed,
-//       "dotted": dotted,
-//       "double": double,
-//       "none": none,
-//     ),
-//   ),
-//   "display": (
-//     "prefix": "d",
-//     "values": (
-//       "none": none,
-//       "inline": inline,
-//       "inline-block": inline-block,
-//       "block": block,
-//       "table": table,
-//       "table-cell": table-cell,
-//       "table-row": table-row,
-//       "flex": flex,
-//       "inline-flex": inline-flex,
-//       "grid": grid,
-//       "inline-grid": inline-grid,
-//       "contents": contents,
-//       "revert": revert,
-//       "list-item": list-item,
-//       "initial": initial,
-//       "inherit": inherit,
-//       "unset": unset,
-//     ),
-//   ),
-//   "flex-direction": (
-//     "prefix": "flex",
-//     "values": (
-//       "row": row,
-//       "row-reverse": row-reverse,
-//       "column": column,
-//       "column-reverse": column-reverse,
-//     ),
-//   ),
-//   "flex-wrap": (
-//     "prefix": "flex",
-//     "values": (
-//       "wrap": wrap,
-//       "wrap-reverse": wrap-reverse,
-//       "nowrap": nowrap,
-//     ),
-//   ),
-//   "justify-content": (
-//     "prefix": "justify-content",
-//     "values": (
-//       "start": flex-start,
-//       "end": flex-end,
-//       "center": center,
-//       "between": space-between,
-//       "around": space-around,
-//       "evenly": space-evenly,
-//     ),
-//   ),
-//   "align-items": (
-//     "prefix": "align-items",
-//     "values": (
-//       "start": flex-start,
-//       "end": flex-end,
-//       "center": center,
-//       "baseline": baseline,
-//       "stretch": stretch,
-//     ),
-//   ),
-//   "align-content": (
-//     "prefix": "align-content",
-//     "values": (
-//       "start": flex-start,
-//       "end": flex-end,
-//       "center": center,
-//       "between": space-between,
-//       "around": space-around,
-//       "stretch": stretch,
-//     ),
-//   ),
-//   "align-self": (
-//     "prefix": "align-self",
-//     "values": (
-//       "auto": auto,
-//       "start": flex-start,
-//       "end": flex-end,
-//       "center": center,
-//       "baseline": baseline,
-//       "stretch": stretch,
-//     ),
-//   ),
-//   "flex-grow": (
-//     "prefix": "flex-grow",
-//     "values": (
-//       "0": 0,
-//       "1": 1,
-//     ),
-//   ),
-//   "flex-shrink": (
-//     "prefix": "flex-shrink",
-//     "values": (
-//       "0": 0,
-//       "1": 1,
-//     ),
-//   ),
-//   "flex-basis": (
-//     "prefix": "flex-basis",
-//     "values": (
-//       "auto": auto,
-//       "0": 0,
-//       "1": 1,
-//       "2": 2,
-//       "3": 3,
-//       "4": 4,
-//       "5": 5,
-//       "6": 6,
-//       "7": 7,
-//       "8": 8,
-//       "9": 9,
-//       "10": 10,
-//     ),
-//   ),
-//   "flex": (
-//     "prefix": "flex-fill",
-//     "values": (
-//       "fill": 1 1 auto,
-//     ),
-//   ),
-//   "font-weight": (
-//     "prefix": "fw",
-//     "values": (
-//       "100": 100,
-//       "200": 200,
-//       "300": 300,
-//       "400": 400,
-//       "500": 500,
-//       "600": 600,
-//       "700": 700,
-//       "800": 800,
-//       "900": 900,
-//       "bold": bold,
-//       "bolder": bolder,
-//       "lighter": lighter,
-//       "normal": normal,
-//     ),
-//   ),
-//   "font-style": (
-//     "prefix": "f-style",
-//     "values": (
-//       "italic": italic,
-//       "normal": normal,
-//     ),
-//   ),
-//   "text-align": (
-//     "prefix": "text",
-//     "values": (
-//       "left": left,
-//       "right": right,
-//       "center": center,
-//       "justify": justify,
-//     ),
-//   ),
-//   "text-decoration": (
-//     "prefix": "text-decoration",
-//     "values": (
-//       "underline": underline,
-//       "line-through": line-through,
-//       "none": none,
-//     ),
-//   ),
-//   "text-transform": (
-//     "prefix": "text-transform",
-//     "values": (
-//       "uppercase": uppercase,
-//       "lowercase": lowercase,
-//       "capitalize": capitalize,
-//       "none": none,
-//     ),
-//   ),
-//   "text-overflow": (
-//     "prefix": "text-overflow",
-//     "values": (
-//       "clip": clip,
-//       "ellipsis": ellipsis,
-//     ),
-//   ),
-//   "white-space": (
-//     "prefix": "white-space",
-//     "values": (
-//       "normal": normal,
-//       "nowrap": nowrap,
-//       "pre": pre,
-//       "pre-line": pre-line,
-//       "pre-wrap": pre-wrap,
-//     ),
-//   ),
-//   "overflow": (
-//     "prefix": "overflow",
-//     "values": (
-//       "auto": auto,
-//       "hidden": hidden,
-//       "scroll": scroll,
-//       "visible": visible,
-//       "clip": clip,
-//     ),
-//   ),
-//   "overflow-x": (
-//     "prefix": "overflow-x",
-//     "values": (
-//       "auto": auto,
-//       "hidden": hidden,
-//       "scroll": scroll,
-//       "visible": visible,
-//       "clip": clip,
-//     ),
-//   ),
-//   "overflow-y": (
-//     "prefix": "overflow-y",
-//     "values": (
-//       "auto": auto,
-//       "hidden": hidden,
-//       "scroll": scroll,
-//       "visible": visible,
-//       "clip": clip,
-//     ),
-//   ),
-//   "position": (
-//     "prefix": "position",
-//     "values": (
-//       "static": static,
-//       "relative": relative,
-//       "absolute": absolute,
-//       "fixed": fixed,
-//       "sticky": sticky,
-//     ),
-//   ),
-//   "outline": (
-//     "prefix": "outline",
-//     "values": (
-//       "none": none,
-//       "0": 0,
-//       "1": 1px auto,
-//       "2": 2px auto,
-//       "3": 3px auto,
-//       "4": 4px auto,
-//     ),
-//   ),
-//   "cursor": (
-//     "prefix": "cursor",
-//     "values": (
-//       "pointer": pointer,
-//       "default": default,
-//       "help": help,
-//       "move": move,
-//       "progress": progress,
-//       "wait": wait,
-//       "text": text,
-//       "crosshair": crosshair,
-//       "not-allowed": not-allowed,
-//       "grab": grab,
-//       "grabbing": grabbing,
-//       "zoom-in": zoom-in,
-//       "zoom-out": zoom-out,
-//       "auto": auto,
-//     ),
-//   ),
-//   "pointer-events": (
-//     "prefix": "pointer-events",
-//     "values": (
-//       "none": none,
-//       "auto": auto,
-//       "visiblePainted": visiblePainted,
-//       "visibleFill": visibleFill,
-//       "visibleStroke": visibleStroke,
-//       "visible": visible,
-//       "painted": painted,
-//       "fill": fill,
-//       "stroke": stroke,
-//       "all": all,
-//       "inherit": inherit,
-//       "initial": initial,
-//       "unset": unset,
-//       "revert": revert,
-//       "revert-layer": revert,
-//     ),
-//   ),
-// );
+$utilities: (
+  "border": (
+    "prefix": "br",
+    "values": (
+      "none": none,
+    ),
+  ),
+  "border-radius": (
+    "prefix": "br",
+    "values": (
+      "pill": 50rem,
+      "full": 50%,
+    ),
+  ),
+  "border-top-left-radius": (
+    "prefix": "br-tl",
+    "values": (
+      "pill": 50rem,
+      "full": 50%,
+    ),
+  ),
+  "border-bottom-left-radius": (
+    "prefix": "br-bl",
+    "values": (
+      "pill": 50rem,
+      "full": 50%,
+    ),
+  ),
+  "border-bottom-right-radius": (
+    "prefix": "br-br",
+    "values": (
+      "pill": 50rem,
+      "full": 50%,
+    ),
+  ),
+  "border-top-right-radius": (
+    "prefix": "br-tr",
+    "values": (
+      "pill": 50rem,
+      "full": 50%,
+    ),
+  ),
+  "border-style": (
+    "prefix": "br-s",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+  "border-bottom-style": (
+    "prefix": "bs-b",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+  "border-top-style": (
+    "prefix": "bs-t",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+  "border-left-style": (
+    "prefix": "bs-l",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+  "border-right-style": (
+    "prefix": "bs-r",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+
+  "font-weight": (
+    "prefix": "fw",
+    "values": (
+      "100": 100,
+      "200": 200,
+      "300": 300,
+      "400": 400,
+      "500": 500,
+      "600": 600,
+      "700": 700,
+      "800": 800,
+      "900": 900,
+      "bold": bold,
+      "bolder": bolder,
+      "lighter": lighter,
+      "normal": normal,
+    ),
+  ),
+  "font-style": (
+    "prefix": "f-style",
+    "values": (
+      "italic": italic,
+      "normal": normal,
+    ),
+  ),
+  "text-align": (
+    "prefix": "text",
+    "values": (
+      "left": left,
+      "right": right,
+      "center": center,
+      "justify": justify,
+    ),
+  ),
+  "text-decoration": (
+    "prefix": "text-decoration",
+    "values": (
+      "underline": underline,
+      "line-through": line-through,
+      "none": none,
+    ),
+  ),
+  "text-transform": (
+    "prefix": "text-transform",
+    "values": (
+      "uppercase": uppercase,
+      "lowercase": lowercase,
+      "capitalize": capitalize,
+      "none": none,
+    ),
+  ),
+  "text-overflow": (
+    "prefix": "text-overflow",
+    "values": (
+      "clip": clip,
+      "ellipsis": ellipsis,
+    ),
+  ),
+  "white-space": (
+    "prefix": "white-space",
+    "values": (
+      "normal": normal,
+      "nowrap": nowrap,
+      "pre": pre,
+      "pre-line": pre-line,
+      "pre-wrap": pre-wrap,
+    ),
+  ),
+  "outline": (
+    "prefix": "outline",
+    "values": (
+      "none": none,
+      "0": 0,
+      "1": 1px auto,
+      "2": 2px auto,
+      "3": 3px auto,
+      "4": 4px auto,
+    ),
+  ),
+  "outline-offset": (
+    "prefix": "outline-offset",
+    "values": (
+      "0": 0,
+      "1": 1px,
+      "2": 2px,
+      "3": 3px,
+      "4": 4px,
+    ),
+  ),
+  "outline-style": (
+    "prefix": "outline-style",
+    "values": (
+      "solid": solid,
+      "dashed": dashed,
+      "dotted": dotted,
+      "double": double,
+      "none": none,
+    ),
+  ),
+  "cursor": (
+    "prefix": "cursor",
+    "values": (
+      "pointer": pointer,
+      "default": default,
+      "help": help,
+      "move": move,
+      "progress": progress,
+      "wait": wait,
+      "text": text,
+      "crosshair": crosshair,
+      "not-allowed": not-allowed,
+      "grab": grab,
+      "grabbing": grabbing,
+      "zoom-in": zoom-in,
+      "zoom-out": zoom-out,
+      "auto": auto,
+    ),
+  ),
+  "pointer-events": (
+    "prefix": "pointer-events",
+    "values": (
+      "none": none,
+      "auto": auto,
+      "visiblePainted": visiblePainted,
+      "visibleFill": visibleFill,
+      "visibleStroke": visibleStroke,
+      "visible": visible,
+      "painted": painted,
+      "fill": fill,
+      "stroke": stroke,
+      "all": all,
+      "inherit": inherit,
+      "initial": initial,
+      "unset": unset,
+      "revert": revert,
+      "revert-layer": revert,
+    ),
+  ),
+);
 
 // // generate utility classes
-// @each $property, $map in $utilities {
-//   $prefix: map-get($map, "prefix");
-//   $values: map-get($map, "values");
+@each $property, $map in $utilities {
+  $prefix: map.get($map, "prefix");
+  $values: map.get($map, "values");
 
-//   @each $k, $v in $values {
-//     .#{$prefix}-#{$k} {
-//       #{$property}: $v;
-//     }
-//   }
-// }
+  @each $k, $v in $values {
+    .#{$prefix}-#{$k} {
+      #{$property}: $v;
+    }
+  }
+}
 
-// @for $i from 1 through 10 {
-//   .h-exact-#{$i*10} {
-//     height: #{$i * 10}px;
-//   }
-// }
+@for $i from 1 through 10 {
+  .h-#{$i*10}px {
+    height: #{$i * 10}px;
+  }
+}
 
-// @for $i from 1 through 10 {
-//   .h-exact-#{($i*10) + 5} {
-//     height: #{($i * 10) + 5}px;
-//   }
-// }
+@for $i from 1 through 10 {
+  .h-#{($i*10) + 5}px {
+    height: #{($i * 10) + 5}px;
+  }
+}
 
-// @each $break-point, $break-point-value in $break-points {
-//   @media screen and (min-width: $break-point-value) {
-//     @each $property, $map in $utilities {
-//       $prefix: map-get($map, "prefix");
-//       $values: map-get($map, "values");
+@each $break-point, $break-point-value in $breakpoints {
+  @media screen and (min-width: $break-point-value) {
+    @each $property, $map in $utilities {
+      $prefix: map.get($map, "prefix");
+      $values: map.get($map, "values");
 
-//       @each $k, $v in $values {
-//         .#{$prefix}-#{$break-point}-#{$k} {
-//           #{$property}: $v;
-//         }
-//       }
-//     }
-//   }
-// }
+      @each $k, $v in $values {
+        .#{$prefix}-#{$break-point}-#{$k} {
+          #{$property}: $v;
+        }
+      }
+    }
+  }
+}
+$sides: (
+  t: border-top,
+  r: border-right,
+  b: border-bottom,
+  l: border-left,
+  x: (
+    border-left,
+    border-right,
+  ),
+  y: (
+    border-top,
+    border-bottom,
+  ),
+);
 
-// .top-0 {
-//   top: 0;
-// }
+@each $side, $property in $sides {
+  .br-#{$side}-only {
+    border-width: 0; // اخفاء كل الجوانب
 
-// .left-0 {
-//   left: 0;
-// }
+    @if meta.type-of($property) == list {
+      @each $prop in $property {
+        #{$prop}-width: initial; // إظهار الجوانب المدمجة (x أو y)
+      }
+    } @else {
+      #{$property}-width: initial; // إظهار الجانب الفردي
+    }
+  }
+}
+$border-sizes: (
+  1: 0.05rem,
+  2: 0.1rem,
+  3: 0.15rem,
+  4: 0.2rem,
+  5: 0.25rem,
+  6: 0.5rem,
+  7: 1rem,
+  8: 1.5rem,
+);
 
-// .right-0 {
-//   right: 0;
-// }
+$sides: (
+  t: border-top,
+  r: border-right,
+  b: border-bottom,
+  l: border-left,
+  x: (
+    border-left,
+    border-right,
+  ),
+  y: (
+    border-top,
+    border-bottom,
+  ),
+);
 
-// .bottom-0 {
-//   bottom: 0;
-// }
+@each $size, $value in $border-sizes {
+  // للجوانب كلها
+  .br-w-#{$size} {
+    border-width: $value;
+  }
 
-// .placeholder-transparent {
-//   &::-webkit-input-placeholder {
-//     color: transparent;
-//   }
+  // للجوانب الفردية
+  @each $side, $property in $sides {
+    .br-w-#{$side}-#{$size} {
+      @if meta.type-of($property) == list {
+        @each $prop in $property {
+          #{$prop}-width: $value;
+        }
+      } @else {
+        #{$property}-width: $value;
+      }
+    }
+  }
+}
+$border-radius: (
+  0: 0,
+  1: 0.125rem,
+  2: 0.25rem,
+  3: 0.5rem,
+  4: 0.75rem,
+  5: 1rem,
+  6: 1.5rem,
+  7: 2rem,
+  8: 3rem,
+  9: 4rem,
+  10: 6rem,
+  11: 8rem,
+  12: 12rem,
+  13: 16rem,
+  14: 24rem,
+  15: 32rem,
+  16: 48rem,
+  17: 64rem,
+  18: 96rem,
+  19: 128rem,
+  20: 192rem,
+);
 
-//   &:-moz-placeholder {
-//     color: transparent;
-//   }
+$border-radius-sides: (
+  tl: border-top-left-radius,
+  tr: border-top-right-radius,
+  bl: border-bottom-left-radius,
+  br: border-bottom-right-radius,
+);
 
-//   &::-moz-placeholder {
-//     color: transparent;
-//   }
+@each $size, $value in $border-radius {
+  .br-radius-#{$size} {
+    border-radius: $value;
+  }
 
-//   &:-ms-input-placeholder {
-//     color: transparent;
-//   }
+  @each $side, $property in $border-radius-sides {
+    .br-radius-#{$side}-#{$size} {
+      #{$property}: $value;
+    }
+  }
+}
 
-//   &::-ms-input-placeholder {
-//     color: transparent;
-//   }
+.top-0 {
+  top: 0;
+}
 
-//   &::placeholder {
-//     color: transparent;
-//   }
-// }
+.left-0 {
+  left: 0;
+}
 
-// .form-field-height {
-//   height: 28px;
-// }
+.right-0 {
+  right: 0;
+}
 
-// .overflow-y-hidden {
-//   overflow-y: hidden;
-// }
+.bottom-0 {
+  bottom: 0;
+}
+
+.placeholder-transparent {
+  &::-webkit-input-placeholder {
+    color: transparent;
+  }
+
+  &:-moz-placeholder {
+    color: transparent;
+  }
+
+  &::-moz-placeholder {
+    color: transparent;
+  }
+
+  &:-ms-input-placeholder {
+    color: transparent;
+  }
+
+  &::-ms-input-placeholder {
+    color: transparent;
+  }
+
+  &::placeholder {
+    color: transparent;
+  }
+}
+
+.form-field-height {
+  height: 28px;
+}
+
+.border-radius-0 {
+  border-radius: 0;
+}
+
 // //border-radius
 // @include utility_with_4_Corners("br", 1rem, border, radius);
 

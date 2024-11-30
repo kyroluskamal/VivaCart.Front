@@ -4,7 +4,7 @@
 @use "./abstracts/maps" as *;
 @use "./abstracts/mixins" as *;
 @use "./utilities/googleicons" as *;
-
+@use "./utilities/spacing" as *;
 /* You can add global styles to this file, and also import other style files */
 @use "./base/typography" as *;
 
@@ -23,30 +23,14 @@
 
 @use "./utilities/elevations" as *;
 
-
 @include generate-display-classes;
 @include generate-responsive-display-classes;
-@include generate-flex-container-helpers();
-
-// For responsive variants
-@include generate-flex-direction-classes(true);
-@include generate-flex-wrap-classes(true);
-@include generate-flex-justify-content-classes(true);
-@include generate-align-items-classes(true);
-@include generate-flex-align-content-classes(true);
-@include generate-order-classes(true);
-@include generate-flex-grow-classes(true);
-@include generate-flex-shrink-classes(true);
-@include generate-flex-basis-classes(true);
-@include generate-flex-classes(true);
-@include generate-flex-align-self-classes(true);
 @include generate-width-classes;
 @include generate-height-classes;
 
 // main.scss (continued)
 
 // Grid Display
-
 
 .backdrop {
   top: 0;
@@ -73,22 +57,6 @@
   height: 56px;
 }
 
-
-ks-side-nav[opened="true"] {
-  width: 20%;
-}
-
-ks-side-nav[opened="false"] {
-  width: 0;
-}
-
-ks-side-nav[opened="true"] + div  {
-  margin-left: 20%;
-}
-
-ks-side-nav[opened="false"] + div {
-  margin-left: 0;
-}
 * {
   outline-offset: 3px;
 }
@@ -131,19 +99,23 @@ ks-side-nav[opened="false"] + div {
   }
 }
 .text-stroke-white {
-  text-shadow: 0.8px 0 0 white, 0 0.5px 0 white, -0.5px 0 0 white, 0 -0.6px 0 white;
+  text-shadow: 0.8px 0 0 white, 0 0.5px 0 white, -0.5px 0 0 white,
+    0 -0.6px 0 white;
 }
 
 .text-stroke-black {
-  text-shadow: 0.8px 0 0 black, 0 0.5px 0 black, -0.5px 0 0 black, 0 -0.6px 0 black;
+  text-shadow: 0.8px 0 0 black, 0 0.5px 0 black, -0.5px 0 0 black,
+    0 -0.6px 0 black;
 }
 
 .btn:hover.text-stroke-black {
-  text-shadow: 0.8px 0 0 white, 0 0.5px 0 white, -0.5px 0 0 white, 0 -0.6px 0 white;
+  text-shadow: 0.8px 0 0 white, 0 0.5px 0 white, -0.5px 0 0 white,
+    0 -0.6px 0 white;
 }
 
 .btn:hover.text-stroke-white {
-  text-shadow: 0.8px 0 0 black, 0 0.5px 0 black, -0.5px 0 0 black, 0 -0.6px 0 black;
+  text-shadow: 0.8px 0 0 black, 0 0.5px 0 black, -0.5px 0 0 black,
+    0 -0.6px 0 black;
 }
 @keyframes ripple-animation {
   to {
@@ -162,8 +134,21 @@ ks-side-nav[opened="false"] + div {
   -ms-transform: scale(0);
   -o-transform: scale(0);
 }
-::ng-deep ks-side-nav, ::ng-deep ks-dashboard-content{
-      transition-duration: 1000ms;
-      transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-       transition-property: transform, margin-left, margin-right, margin-left;
-    }
+
+.sidenav-toggle[opened="false"] {
+  transform: translateX(-100%);
+}
+.sidenav-toggle[opened="true"] {
+  transform: translateX(0);
+}
+
+ks-dashboard-layout[ng-reflect-sidebar-mode="side"]
+  .sidenav-toggle[opened="false"]
+  + div {
+  padding-left: 0px;
+}
+ks-dashboard-layout[ng-reflect-sidebar-mode="side"]
+  .sidenav-toggle[opened="true"]
+  + div {
+  padding-left: var(--sidebar-width);
+}

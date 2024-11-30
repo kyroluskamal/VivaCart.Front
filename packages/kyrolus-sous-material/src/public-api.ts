@@ -11,3 +11,6 @@ export * from './services/services.export';
 export * from './components/accordion/acoordion.export';
 export * from './components/navbar/navbar.export';
 export * from './components/side-nav.component';
+
+// tokens
+export * from './Tokens/button.tokens';

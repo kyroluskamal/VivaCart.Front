@@ -17,7 +17,11 @@ import { DashboardContentComponent } from './dashboard-content.component';
     </div>
     } @else {
     <ng-container [ngTemplateOutlet]="navbar" />
-    <div class="d-flex flex-row w-100 h-100 position-relative">
+    <div
+      class="d-flex flex-row w-100 h-100 position-relative + {{
+        contentClases()
+      }}"
+    >
       <ng-container [ngTemplateOutlet]="sidebar" />
       <ng-container [ngTemplateOutlet]="dashboardContent" />
     </div>
@@ -36,11 +40,22 @@ import { DashboardContentComponent } from './dashboard-content.component';
     </ng-template>
   `,
   styles: `
-
+      :host(:has(ks-side-nav + div)) div {
+        will-change: transform;
+        transition:
+          padding var(--transition-duration) var(--transition-easing),
+          transform var(--transition-duration) var(--transition-easing),
+          margin var(--transition-duration) var(--transition-easing);
+      }
+      // :host(:has(ks-side-nav[opened='true'] + div)) div {
+      //   transform: translateX(21vw);
+      // }
+      // :host(:has(ks-side-nav[opened='false'] + div)) div {
+      //   transform: translateX(0);
+      // }
   `,
   host: {
-    class:
-      'w-100 h-100 d-flex flex-column overflow-x-hidden dashboard-animation',
+    class: 'w-100 h-100 d-flex flex-column',
   },
 })
 export class DashboardLayoutComponent {

@@ -6,11 +6,20 @@ import {
   RendererService,
   SideBarMode,
   DashboardModule,
+  ButtonDirective,
+  AccordionModule,
 } from 'kyrolus-sous-material';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SideNavComponent, NavbarModule, DashboardModule],
+  imports: [
+    RouterOutlet,
+    ButtonDirective,
+    SideNavComponent,
+    NavbarModule,
+    DashboardModule,
+    AccordionModule,
+  ],
   providers: [RendererService],
   standalone: true,
   templateUrl: './app.component.html',

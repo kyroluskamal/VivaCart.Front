@@ -4,13 +4,15 @@ import { AccordionContentComponent } from './accordion-content.component';
 import { AccordionHeaderComponent } from './accordion-header.component';
 import { AccordionItemComponent } from './accordion-item.component';
 
+const components = [
+  AccordionContainerComponent,
+  AccordionContentComponent,
+  AccordionHeaderComponent,
+  AccordionItemComponent,
+];
 @NgModule({
   declarations: [],
-  imports: [
-    AccordionContainerComponent,
-    AccordionContentComponent,
-    AccordionHeaderComponent,
-    AccordionItemComponent,
-  ],
+  imports: [...components],
+  exports: [...components],
 })
 export class AccordionModule {}

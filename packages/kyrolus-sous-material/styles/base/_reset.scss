@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: inherit;
@@ -11,13 +13,16 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: 0;
   width: 100%;
   height: 100%;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --transition-duration: 0.5s;
+  --transition-easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+  --sidebar-width: 15rem;
 }
