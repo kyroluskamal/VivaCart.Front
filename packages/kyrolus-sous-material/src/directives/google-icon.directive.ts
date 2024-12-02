@@ -5,9 +5,9 @@ import { GoogleIconType } from '../helpers/types';
   selector: '[ksGoogleIcon]',
 })
 export class GoogleIconDirective {
-  googleIconType = input<GoogleIconType>('filled');
+  ksGoogleIcon = input<GoogleIconType>('filled');
 
   @HostBinding('class') get class() {
-    return 'material-icons ' + this.googleIconType;
+    return 'material-icons ' + this.ksGoogleIcon();
   }
 }

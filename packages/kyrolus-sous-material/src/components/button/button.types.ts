@@ -1,6 +1,4 @@
-export type ByuttonType = 'button' | 'submit' | 'reset';
 export type ButtonSize = 'sm' | 'med' | 'lg';
-
 export type ButtonAppearance =
   | 'primary'
   | 'secondary'
@@ -10,8 +8,6 @@ export type ButtonAppearance =
   | 'success'
   | 'info'
   | 'light'
-  | 'dark'
-  | 'link';
-export type ButtonShape = 'rectangle' | 'rounded' | 'circle';
+  | 'dark';
 export type ButtonState = 'default' | 'hover' | 'active' | 'disabled';
-export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
+export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'link' | 'text';

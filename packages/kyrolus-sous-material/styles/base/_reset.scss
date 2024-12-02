@@ -1,3 +1,5 @@
+@use "../abstracts/variables" as *;
+
 *,
 *::before,
 *::after {
@@ -13,9 +15,11 @@ html {
 }
 
 body {
+  font-family: $default-font-family;
+  font-size: $default-font-size;
+  font-weight: $font-weight-regular;
   width: 100%;
   height: 100%;
-  font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

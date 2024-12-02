@@ -577,12 +577,12 @@ $border-radius-sides: (
 );
 
 @each $size, $value in $border-radius {
-  .br-radius-#{$size} {
+  .br-r-#{$size} {
     border-radius: $value;
   }
 
   @each $side, $property in $border-radius-sides {
-    .br-radius-#{$side}-#{$size} {
+    .br-r-#{$side}-#{$size} {
       #{$property}: $value;
     }
   }
@@ -634,10 +634,65 @@ $border-radius-sides: (
   height: 28px;
 }
 
-.border-radius-0 {
+.br-r-0 {
   border-radius: 0;
 }
 
+// $margin-sizes: (
+//   0: 0,
+//   1: 0.25rem,
+//   2: 0.5rem,
+//   3: 1rem,
+//   4: 1.5rem,
+//   5: 3rem,
+//   6: 4rem,
+//   7: 6rem,
+//   8: 8rem,
+//   9: 12rem,
+//   10: 16rem,
+//   11: 24rem,
+//   12: 32rem,
+//   13: 48rem,
+//   14: 64rem,
+//   15: 96rem,
+//   16: 128rem,
+//   17: 192rem,
+//   18: 256rem,
+//   19: 384rem,
+//   20: 512rem,
+// );
+
+// @each $size, $value in $margin-sizes {
+//   .m-#{$size} {
+//     margin: $value;
+//   }
+
+//   .mt-#{$size} {
+//     margin-top: $value;
+//   }
+
+//   .mr-#{$size} {
+//     margin-right: $value;
+//   }
+
+//   .mb-#{$size} {
+//     margin-bottom: $value;
+//   }
+
+//   .ml-#{$size} {
+//     margin-left: $value;
+//   }
+
+//   .mx-#{$size} {
+//     margin-left: $value;
+//     margin-right: $value;
+//   }
+
+//   .my-#{$size} {
+//     margin-top: $value;
+//     margin-bottom: $value;
+//   }
+// }
 // //border-radius
 // @include utility_with_4_Corners("br", 1rem, border, radius);
 

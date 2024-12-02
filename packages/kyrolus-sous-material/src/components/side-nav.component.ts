@@ -9,16 +9,16 @@ import {
   output,
   ɵSafeValue,
 } from '@angular/core';
-import { Icon, SideBarPosition } from '../helpers/types';
+import { SideBarPosition } from '../helpers/types';
 import { RendererService } from '../services/renderer.service';
 import { ThrowingErrorService } from '../services/throwing-error.service';
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { GoogleIconDirective } from '../directives/google-icon.directive';
 import { IconDirective } from '../directives/icon.directive';
+import { IconType } from '../directives/icon.types';
 
 @Component({
   selector: 'ks-side-nav',
-  imports: [NgClass, GoogleIconDirective, IconDirective, NgOptimizedImage],
+  imports: [NgClass, IconDirective, NgOptimizedImage],
   template: `
     <div
       class="w-100"
@@ -30,7 +30,7 @@ import { IconDirective } from '../directives/icon.directive';
         <button>
           @if(closeIcon().type == 'google'){
           <span
-            ksGoogleIcon
+            ksGoogleIcon="filled"
             (click)="open.set(false)"
             [class]="closeBtnClasses()"
             >{{ closeIcon().icon }}</span
@@ -38,7 +38,7 @@ import { IconDirective } from '../directives/icon.directive';
           }@else{
           <span
             [ksIcon]="closeIcon().icon"
-            [iconType]="closeIcon()"
+            [iconType]="closeIcon().type"
             [class]="closeBtnClasses()"
             (click)="open.set(false)"
           ></span>
@@ -47,7 +47,7 @@ import { IconDirective } from '../directives/icon.directive';
       </div>
       } @if(logo()!=""){
       <div
-        class="navbar-height p-1 d-flex f-justify-content-center br-b-dark-38 br-w-b-2 br-s-solid br-b-only"
+        class="navbar-height d-flex f-justify-content-center br-b-dark-38 br-w-b-2 br-s-solid br-b-only"
       >
         <img [ngSrc]="logo()" alt="logo" width="50" height="50" />
       </div>
@@ -66,7 +66,7 @@ import { IconDirective } from '../directives/icon.directive';
 export class SideNavComponent implements AfterViewInit {
   position = input<SideBarPosition>('left');
   open = model<boolean>(true);
-  closeIcon = input<Icon>({
+  closeIcon = input<{ type: IconType; icon: string }>({
     type: 'google',
     icon: 'close',
   });

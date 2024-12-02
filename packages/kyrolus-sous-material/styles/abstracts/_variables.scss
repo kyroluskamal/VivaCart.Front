@@ -57,7 +57,10 @@ $display-values: (
   list-item: list-item,
   contents: contents,
 );
-$primay-color: #538fac;
+$hover-darken: -15%;
+$active-darken: -30%;
+
+$primay-color: #2f91c2;
 $secondary-color: #ea9845;
 $success-color: #28a745;
 $danger-color: #dc3545;
@@ -73,7 +76,7 @@ $colors: (
   "primary": $primay-color,
   "secondary": $secondary-color,
   "success": $success-color,
-  "error": $danger-color,
+  "danger": $danger-color,
   "warning": $warning-color,
   "info": $info-color,
   "neutral-light": #cfcbc2,
@@ -81,7 +84,11 @@ $colors: (
   "tertiary": $tertiary,
   "dark": $dark-color,
 );
-
+:root {
+  @each $name, $color in $colors {
+    --#{$name}-color: #{$color};
+  }
+}
 // _variables.scss (continued)
 
 $breakpoints: (
@@ -239,15 +246,15 @@ $units: (
 // 	0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
 // // font sizes
-// $default-font-size: 1rem;
-// $font-size-sm: $default-font-size * 0.75;
-// $font-size-lg: $default-font-size * 1.5;
-// $font-size-xl: $default-font-size * 2;
-// $font-size-xxl: $default-font-size * 3;
-// $font-weight-regular: 400;
-// $font-weight-medium: 500;
-// $default-font-family: "Roboto", sans-serif;
-// $default-line-height: 1.5;
+$default-font-size: 1rem;
+$font-size-sm: $default-font-size * 0.75;
+$font-size-lg: $default-font-size * 1.5;
+$font-size-xl: $default-font-size * 2;
+$font-size-xxl: $default-font-size * 3;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$default-font-family: "Roboto", sans-serif;
+$default-line-height: 1.5;
 // //colors
 // $default-body-background-color: #f5f5f5;
 // $white: #ffffff;
@@ -271,35 +278,15 @@ $units: (
 // $default-card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2),
 // 	0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
 
-// :root {
-// 	//border
-// 	--default-border-radius: #{$default-border-radius};
-// 	--default-border-thickness: #{$default-border-thickness};
-
-// 	--default-padding: #{$default-padding};
-// 	--default-margin: #{$default-margin};
-// 	--default-box-shadow: #{$default-box-shadow};
-// 	//Font
-// 	--default-font-size: #{$default-font-size};
-// 	--font-size-sm: #{$default-font-size * 0.75};
-// 	--font-size-lg: #{$default-font-size * 1.5};
-// 	--font-size-xl: #{$default-font-size * 2};
-// 	--font-size-xxl: #{$default-font-size * 3};
-// 	--default-font-family: #{$default-font-family};
-// 	--default-body-background-color: #{$default-body-background-color};
-// 	--white: #{$white};
-// 	--primary-color: #{$primary-color};
-// 	--secondary-color: #{$secondary-color};
-// 	--success-color: #{$success-color};
-// 	--warning-color: #{$warning-color};
-// 	--danger-color: #{$danger-color};
-// 	--info-color: #{$info-color};
-// 	--dark-color: #{$dark-color};
-// 	--grey-color: #{$grey-color};
-// 	//card
-// 	--default-cards-background-color: #{$default-cards-background-color};
-// 	--default-card-shadow: #{$default-card-shadow};
-// }
+:root {
+  //Font
+  --default-font-size: #{$default-font-size};
+  --font-size-sm: #{$default-font-size * 0.75};
+  --font-size-lg: #{$default-font-size * 1.5};
+  --font-size-xl: #{$default-font-size * 2};
+  --font-size-xxl: #{$default-font-size * 3};
+  --default-font-family: #{$default-font-family};
+}
 
 // $break-points: (
 // 	"sm": 576px,

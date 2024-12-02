@@ -8,6 +8,7 @@ import {
   DashboardModule,
   ButtonDirective,
   AccordionModule,
+  IconDirective,
 } from 'kyrolus-sous-material';
 
 @Component({
@@ -19,6 +20,7 @@ import {
     NavbarModule,
     DashboardModule,
     AccordionModule,
+    IconDirective,
   ],
   providers: [RendererService],
   standalone: true,

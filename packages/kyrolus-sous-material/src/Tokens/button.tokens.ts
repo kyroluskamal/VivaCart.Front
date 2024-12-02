@@ -28,7 +28,7 @@ export const BUTTON_LOADING_CLASS = new InjectionToken<string>(
 );
 export const BUTTON_BORDER_RADIUS_CLASS = new InjectionToken<string>(
   'BUTTON_BORDER_RADIUS',
-  { providedIn: 'any', factory: () => 'br-radius-2' }
+  { providedIn: 'any', factory: () => 'br-r-2' }
 );
 export const BUTTON_RAISE_CLASS = new InjectionToken<string>(
   'BUTTON_RAISE_CLASS',

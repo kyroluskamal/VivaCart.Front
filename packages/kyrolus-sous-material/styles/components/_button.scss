@@ -15,18 +15,7 @@ $btn-sizes: (
     font-size: 1.125rem,
   ),
 );
-$hover-darken: -15%;
-$active-darken: -30%;
-$primay-color: #2f91c2;
-$secondary-color: #ea9845;
-$success-color: #28a745;
-$danger-color: #dc3545;
-$warning-color: #ffc107;
-$info-color: $primay-color;
-$dark-color: #353535;
-$grey-color: #1b1919;
-$white: #ffffff;
-$tertiary: #363d48;
+
 $btn-colors: (
   "primary": (
     bg: $primay-color,
@@ -137,7 +126,7 @@ $btn-colors: (
   font-weight: 500;
   transition: all 0.2s ease-in-out;
   width: fit-content;
-  min-width: 120px;
+  // min-width: 120px;
   &:disabled {
     opacity: 0.6;
     background-color: #adadad;
@@ -203,11 +192,11 @@ $outline-buttons: (
 }
 
 .btn-rounded {
-  border-radius: 0.5rem;
+  border-radius: 0.5rem !important;
 }
 
 .btn-circle {
-  border-radius: 9999px;
+  border-radius: 9999px !important;
 }
 
 // Variant Styles
@@ -255,6 +244,34 @@ $ghost-buttons: (
 //     background-color: rgba(0, 0, 0, 0.05);
 //   }
 // }
+
+$text-buttons: (
+  "primary": $primay-color,
+  "secondary": $secondary-color,
+  "tertiary": $tertiary,
+  "success": $success-color,
+  "danger": $danger-color,
+  "warning": $warning-color,
+  "info": $info-color,
+  "dark": $dark-color,
+  "grey": $grey-color,
+);
+
+// Text Button Styles
+@each $text, $color in $text-buttons {
+  .btn-text-#{$text} {
+    background-color: transparent;
+    color: $color;
+
+    &:hover:not(:disabled) {
+      background-color: rgba($color, 0.1);
+    }
+
+    &:active:not(:disabled) {
+      background-color: rgba($color, 0.2);
+    }
+  }
+}
 
 .btn-link {
   background-color: transparent;

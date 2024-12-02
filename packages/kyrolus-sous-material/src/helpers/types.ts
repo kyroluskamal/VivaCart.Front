@@ -1,9 +1,7 @@
-export type IconType = 'fa' | 'fas' | 'fal' | 'far' | 'fab' | 'fad' | 'bi';
 export type AccordionConfig = {
   useTogglerTransition?: boolean;
   iconWhenOpened?: string;
   iconWhenClosed?: string;
-  togglerIcon?: { type: 'google' | IconType; icon: string };
   useBorderRadius?: boolean;
   borderRadiusClass_FirstChild?: string;
   borderRadiusClass_LastChild?: string;
@@ -20,7 +18,6 @@ export type GoogleIconType =
   | 'sharp'
   | 'two-tone';
 
-export type Icon = { type: IconType | 'google'; icon: string };
 export type KMatColor =
   | 'primary'
   | 'secondary'

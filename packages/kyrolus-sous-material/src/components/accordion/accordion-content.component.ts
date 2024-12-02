@@ -1,15 +1,30 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  HostBinding,
+  inject,
+  signal,
+} from '@angular/core';
+import { AccordionItemComponent } from './accordion-item.component';
+import { AccordionContainerComponent } from './accordion-container.component';
 
 @Component({
   selector: 'ks-accordion-content',
   imports: [],
-  template: `
-    <p>
-      accordion-content works!
-    </p>
+  template: ` <ng-content>Add Content Here</ng-content> `,
+  styles: `
+
   `,
-  styles: ``
+  host: { class: 'pl-25 position-relative' },
 })
 export class AccordionContentComponent {
-
+  readonly container = inject(AccordionContainerComponent);
+  readonly accordionItem = inject(AccordionItemComponent);
+  isopened = computed(() => this.accordionItem.opened());
+  @HostBinding('class.opened')
+  @HostBinding('attr.opened')
+  get opened() {
+    return this.isopened();
+  }
 }

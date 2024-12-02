@@ -31,6 +31,8 @@
             ],
             "styles": [
               "projects/dashboard/src/styles.scss",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
+
               "node_modules/kyrolus-sous-material/styles/styles.scss"
             ],
             "scripts": [],

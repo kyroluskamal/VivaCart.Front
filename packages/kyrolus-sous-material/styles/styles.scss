@@ -23,6 +23,8 @@
 
 @use "./utilities/elevations" as *;
 
+@use "./components/accordion" as *;
+
 @include generate-display-classes;
 @include generate-responsive-display-classes;
 @include generate-width-classes;
@@ -31,7 +33,6 @@
 // main.scss (continued)
 
 // Grid Display
-
 .backdrop {
   top: 0;
   left: 0;
