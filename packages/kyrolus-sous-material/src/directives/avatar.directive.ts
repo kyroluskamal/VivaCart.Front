@@ -1,4 +1,4 @@
-import { Directive, HostBinding, input } from '@angular/core';
+import { Directive } from '@angular/core';
 
 @Directive({
   selector: '[ksAvatar]',
