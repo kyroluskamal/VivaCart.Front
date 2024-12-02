@@ -14,3 +14,6 @@ export * from './components/side-nav.component';
 
 // tokens
 export * from './Tokens/button.tokens';
+
+//card
+export * from './components/card/card.exports';

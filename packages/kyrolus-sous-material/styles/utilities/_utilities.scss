@@ -704,3 +704,16 @@ $border-radius-sides: (
 
 // //border-width
 // @include utility_with_4_sides("bw", 1rem, border, width, 0.1);
+$object-fit-values: (
+  contain: contain,
+  cover: cover,
+  fill: fill,
+  none: none,
+  scale-down: scale-down,
+);
+
+@each $name, $value in $object-fit-values {
+  .object-fit-#{$name} {
+    object-fit: $value;
+  }
+}

@@ -4,7 +4,7 @@ import { CardComponent } from './card.component';
 @Component({
   selector: 'ks-card-actions',
   imports: [],
-  template: ` <p>card-actions works!</p> `,
+  template: `<ng-content select="button">jlkjklj</ng-content> `,
   styles: ``,
 })
 export class CardActionsComponent {

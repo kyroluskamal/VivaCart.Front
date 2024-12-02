@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
@@ -9,6 +10,8 @@ import {
   ButtonDirective,
   AccordionModule,
   IconDirective,
+  CardModule,
+  AvatarDirective,
 } from 'kyrolus-sous-material';
 
 @Component({
@@ -21,6 +24,9 @@ import {
     DashboardModule,
     AccordionModule,
     IconDirective,
+    AvatarDirective,
+    NgOptimizedImage,
+    CardModule,
   ],
   providers: [RendererService],
   standalone: true,

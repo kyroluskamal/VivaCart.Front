@@ -4,8 +4,13 @@ import { CardComponent } from './card.component';
 @Component({
   selector: 'ks-card-content',
   imports: [],
-  template: ` <p>card-content works!</p> `,
+  template: `
+    <ng-content
+      ><div class="w-100 h-100 d-flex flex-row f-justify-content-center"></div
+    ></ng-content>
+  `,
   styles: ``,
+  host: { class: 'fsi-1 flex-1' },
 })
 export class CardContentComponent {
   readonly cardContainer = inject(CardComponent);

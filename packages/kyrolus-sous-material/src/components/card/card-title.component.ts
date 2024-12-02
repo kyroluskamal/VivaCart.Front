@@ -4,8 +4,9 @@ import { CardHeaderComponent } from './card-header.component';
 @Component({
   selector: 'ks-card-title',
   imports: [],
-  template: ` <p>card-title works!</p> `,
+  template: ` <ng-content>Add Title</ng-content> `,
   styles: ``,
+  host: { class: 'fsi-3 fw-bold' },
 })
 export class CardTitleComponent {
   readonly cardHeader = inject(CardHeaderComponent);

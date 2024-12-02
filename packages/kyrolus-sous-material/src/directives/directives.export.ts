@@ -9,3 +9,5 @@ export * from './suffix.directive';
 export * from './prefix.directive';
 export * from './ripple.directive';
 export * from './button.directive';
+export * from './avatar.directive';
+export * from './card-image.directive';

@@ -49,7 +49,7 @@ import { IconType } from '../directives/icon.types';
       <div
         class="navbar-height d-flex f-justify-content-center br-b-dark-38 br-w-b-2 br-s-solid br-b-only"
       >
-        <img [ngSrc]="logo()" alt="logo" width="50" height="50" />
+        <img [ngSrc]="logo()" alt="logo" width="50" height="50" priority />
       </div>
       }
       <ng-content></ng-content>

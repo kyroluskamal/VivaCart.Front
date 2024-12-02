@@ -4,7 +4,7 @@ import { CardComponent } from './card.component';
 @Component({
   selector: 'ks-card-footer',
   imports: [],
-  template: ` <p>card-footer works!</p> `,
+  template: ` <ng-content></ng-content> `,
   styles: ``,
 })
 export class CardFooterComponent {

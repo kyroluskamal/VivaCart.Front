@@ -4,8 +4,18 @@ import { CardComponent } from './card.component';
 @Component({
   selector: 'ks-card-header',
   imports: [],
-  template: ` <p>card-header works!</p> `,
+  template: `
+    <ng-content select="[ksAvatar]" />
+    <div class="d-flex flex-column flex-1">
+      <ng-content select="ks-card-title">Add Title</ng-content>
+      <ng-content select="ks-card-subtitle">Add Subtitle</ng-content>
+    </div>
+  `,
   styles: ``,
+  host: {
+    class:
+      'd-flex flex-row f-justifuy-content-start f-align-items-center gap-3',
+  },
 })
 export class CardHeaderComponent implements OnInit {
   readonly cardContainer = inject(CardComponent);
