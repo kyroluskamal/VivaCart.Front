@@ -1,28 +1,31 @@
 import {
   Component,
   computed,
-  effect,
   HostBinding,
   HostListener,
   inject,
+  input,
 } from '@angular/core';
-import {
-  GoogleIconDirective,
-  IconDirective,
-} from '../../directives/directives.export';
+import { IconDirective } from '../../directives/directives.export';
 import { AccordionItemComponent } from './accordion-item.component';
 import { AccordionContainerComponent } from './accordion-container.component';
+import { IconType } from '../../directives/icon.types';
 
 @Component({
   selector: 'ks-accordion-header',
   imports: [IconDirective],
 
   template: `
-    <div ksIcon="house"></div>
+    @if(icon!=null || icon!=undefined || icon!=''){
+
+    <div [ksIcon]="icon().icon" [iconType]="icon().type"></div>
+    }
     <span class="d-flex flex-1">
       <ng-content>Add header here</ng-content>
     </span>
+    @if(!accortionItem.headerOnly()){
     <div ksIcon="chevron-right"></div>
+    }
   `,
   host: {
     class:
@@ -37,6 +40,12 @@ import { AccordionContainerComponent } from './accordion-container.component';
 export class AccordionHeaderComponent {
   readonly accortionContainer = inject(AccordionContainerComponent);
   readonly accortionItem = inject(AccordionItemComponent);
+  readonly icon = input<{ icon: string; type: IconType }>({
+    type: 'bi',
+    icon: '',
+  });
+
+  readonly ActiveClass = input<string>('accordtion-active');
   readonly opened = computed<boolean>(() => this.accortionItem.opened());
   ngOnInit(): void {
     if (!this.accortionItem) {
@@ -45,13 +54,22 @@ export class AccordionHeaderComponent {
   }
   @HostListener('click')
   toggle() {
-    this.accortionItem.opened.set(!this.accortionItem.opened());
-    this.accortionContainer.theOpenedItem.set(this.accortionItem);
+    if (this.accortionItem.disabled() || this.accortionItem.headerOnly())
+      this.accortionItem.opened.set(false);
+    else {
+      this.accortionItem.opened.set(!this.accortionItem.opened());
+      this.accortionContainer.theOpenedItem.set(this.accortionItem);
+    }
   }
 
   @HostBinding('class.opened')
   @HostBinding('attr.opened')
   get _opened(): boolean {
     return this.opened();
+  }
+
+  @HostBinding('class')
+  get _active(): string {
+    return this.opened() ? this.ActiveClass() : '';
   }
 }

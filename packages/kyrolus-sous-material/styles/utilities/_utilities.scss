@@ -176,9 +176,12 @@ $position-offsets: (
 // @include utility("min-w", 1rem, "min-width", 0.2, 0, 30);
 // @include utility("min-w-p", 100%, "min-width", 0.1, 100);
 // @include utility("vw", 100vw, "width", 0.1, 100);
-// .w-fit-content {
-//   width: fit-content !important;
-// }
+.w-fit-content {
+  width: fit-content !important;
+}
+.h-fit-content {
+  height: fit-content !important;
+}
 // //height
 // @include utility("h", 1rem, "height");
 // @include utility("h-p", 100%, "height", 0.1, 100);

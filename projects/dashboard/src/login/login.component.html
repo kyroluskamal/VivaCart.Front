@@ -1,0 +1,19 @@
+<div class="w-100 h-100 bg-grey-37 d-flex flex-row">
+  <div class="h-100 w-50 d-lg-none ">
+    <img src="img/cart-light.png" class="object-fit-cover" alt="" />
+  </div>
+  <div class="w-100 p-30 d-flex flex-row f-align-items-center f-justify-content-center flex-1">
+    <ks-card class="m-30 w-100 h-fit-content d-flex flex-column f-justify-content-start f-align-items-center"
+      [cardContainerOnly]="true">
+      <div class="d-flex flex-column">
+        <img class="logo" ngSrc="img/vivacart.png" width="100" height="100" alt="logo" priority>
+        <h2 [class]="'text-center fs-1 ' + fontsConst.BloggerSans">
+          <span class="text-primary">Viva</span><span class="text-dark">Cart</span>
+        </h2>
+      </div>
+      <form>
+        <input type="text">
+      </form>
+    </ks-card>
+  </div>
+</div>

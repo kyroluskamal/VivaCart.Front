@@ -1,39 +1,33 @@
-// // components/_input.scss
+input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
 
-// .input-field {
-//   position: relative;
-//   margin-bottom: rem($spacing-unit * 2);
+  width: 470.5px;
+  height: 40px;
 
-//   .input-field__input {
-//     width: 100%;
-//     padding: rem($spacing-unit) 0;
-//     font-size: rem($default-font-size);
-//     border: none;
-//     border-bottom: 1px solid rgba($color-on-surface, 0.38);
-//     background-color: transparent;
-//     color: $color-on-surface;
-//     transition: border-color 0.3s;
+  background: #ffffff;
+  border: 1px solid #338cb5;
+  border-radius: 6px;
 
-//     &:focus {
-//       outline: none;
-//       border-bottom-color: $color-primary;
-//     }
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
 
-//     &:focus + .input-field__label,
-//     &:not(:placeholder-shown) + .input-field__label {
-//       transform: translateY(-100%);
-//       font-size: rem($default-font-size * 0.75);
-//       color: $color-primary;
-//     }
-//   }
+  width: 36px;
+  height: 20px;
 
-//   .input-field__label {
-//     position: absolute;
-//     top: rem($spacing-unit * 1.5);
-//     left: 0;
-//     font-size: rem($default-font-size);
-//     color: rgba($color-on-surface, 0.6);
-//     pointer-events: none;
-//     transition: transform 0.3s, font-size 0.3s, color 0.3s;
-//   }
-// }
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+
+  color: #7d7d7d;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

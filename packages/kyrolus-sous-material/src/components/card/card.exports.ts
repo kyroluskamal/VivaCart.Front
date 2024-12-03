@@ -6,3 +6,4 @@ export * from './card-header.component';
 export * from './card-title.component';
 export * from './card-subtitle.component';
 export * from './card.module';
+export * from './card-image.directive';

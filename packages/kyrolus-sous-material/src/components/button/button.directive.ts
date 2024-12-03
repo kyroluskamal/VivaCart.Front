@@ -10,12 +10,12 @@ import {
   ButtonAppearance,
   ButtonSize,
   ButtonVariant,
-} from '../components/button/button.types';
+} from '../button/button.types';
 import {
   BUTTON_BORDER_RADIUS_CLASS,
   BUTTON_IS_RAISED,
   BUTTON_RAISE_CLASS,
-} from '../Tokens/button.tokens';
+} from '../../Tokens/button.tokens';
 
 @Directive({
   selector: '[ksButton]',

@@ -5,7 +5,7 @@
 @use "./abstracts/mixins" as *;
 @use "./utilities/googleicons" as *;
 @use "./utilities/spacing" as *;
-/* You can add global styles to this file, and also import other style files */
+
 @use "./base/typography" as *;
 
 //Colors
@@ -14,6 +14,7 @@
 //Components
 @use "./components/card" as *;
 @use "./components/button" as *;
+@use "./components/input" as *;
 
 //Utilities
 @use "./utilities/utilities" as *;
@@ -50,10 +51,6 @@
   background-color: rgba(12, 10, 10, 0.57);
 }
 
-// .mx-auto {
-//   margin-right: auto;
-//   margin-left: auto;
-// }
 .navbar-height {
   height: 56px;
 }

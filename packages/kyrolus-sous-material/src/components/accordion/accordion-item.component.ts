@@ -1,6 +1,7 @@
 import {
   Component,
   effect,
+  HostBinding,
   inject,
   input,
   model,
@@ -22,12 +23,24 @@ import { AccordionContainerComponent } from './accordion-container.component';
 export class AccordionItemComponent implements OnInit {
   container = inject(AccordionContainerComponent);
   readonly opened = signal(false);
+  readonly disabled = model<boolean>(false);
+  readonly headerOnly = input<boolean>(false);
 
+  effect = effect(() => {
+    if (this.disabled() || this.headerOnly()) {
+      this.opened.set(false);
+    }
+  });
   ngOnInit(): void {
     if (!this.container) {
       throw new Error(
         'Accordion Item must be used inside an Accordion Container'
       );
     }
+  }
+
+  @HostBinding('attr.disabled')
+  get isDisabled() {
+    return this.disabled();
   }
 }

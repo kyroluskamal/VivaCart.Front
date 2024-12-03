@@ -116,6 +116,11 @@
           "standalone": true,
           "flat": true,
           "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true,
+          "flat": true,
+          "skipTests": true
         }
       },
       "root": "packages/kyrolus-sous-material",

@@ -5,6 +5,10 @@ ks-accordion-content {
   &.opened {
     max-height: 500px;
   }
+  a {
+    text-decoration: none;
+    color: initial;
+  }
   ul {
     list-style: none;
     display: flex;
@@ -57,9 +61,22 @@ ks-accordion-header {
   }
   &.opened {
     margin-bottom: 0.5rem;
-
     div:last-child {
       transform: rotate(90deg);
     }
+  }
+}
+
+ks-accordion-item[disabled="true"] ks-accordion-header {
+  background-color: #f5f5f5;
+  color: #b3b3b3;
+  cursor: not-allowed;
+}
+
+.accordtion-active {
+  background-color: var(--primary-color);
+  color: white;
+  div:last-child {
+    transform: rotate(90deg);
   }
 }

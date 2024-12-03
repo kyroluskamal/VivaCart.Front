@@ -6,4 +6,8 @@ export type IconType =
   | 'fab'
   | 'fad'
   | 'bi'
-  | 'google';
+  | 'google'
+  | 'google-round'
+  | 'google-outlined'
+  | 'google-sharp'
+  | 'google-two-tone';
