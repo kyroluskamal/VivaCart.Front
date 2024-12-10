@@ -13,7 +13,7 @@ export * from './components/navbar/navbar.export';
 export * from './components/side-nav.component';
 
 // tokens
-export * from './Tokens/button.tokens';
+export * from './Tokens/tokens.exports';
 
 //card
 export * from './components/card/card.exports';
@@ -21,3 +21,6 @@ export * from './components/card/card.exports';
 //button
 export * from './components/button/button.exports';
 export * from './helpers/constants/constants.exports';
+
+//form
+export * from './components/form/form.exports';

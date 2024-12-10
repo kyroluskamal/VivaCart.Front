@@ -152,57 +152,13 @@ $position-offsets: (
     }
   }
 }
-// //padding
-// @include utility("p", $default-padding, "padding");
-// @include utility("pl", $default-padding, "padding-left");
-// @include utility("pr", $default-padding, "padding-right");
-// @include utility("pb", $default-padding, "padding-bottom");
-// @include utility("pt", $default-padding, "padding-top");
-// @include utility_with_2_properties("py", $default-padding, "padding-top", "padding-bottom");
-// @include utility_with_2_properties("px", $default-padding, "padding-left", "padding-right");
-// //margin
-// @include utility("m", $default-margin, "margin");
-// @include utility("mt", $default-margin, "margin-top");
-// @include utility("mr", $default-margin, "margin-right");
-// @include utility("ml", $default-margin, "margin-left");
-// @include utility("mb", $default-margin, "margin-bottom");
-// @include utility_with_2_properties("my", $default-margin, "margin-top", "margin-bottom");
-// @include utility_with_2_properties("mx", $default-margin, "margin-left", "margin-right");
-// //width
-// // @mixin utility($prfix, $defaultValue, $cssClass, $devisionFactor: $defaultFactor, $optionalPrefix: 0, $numberOfValues: $numberOfValues) {
 
-// @include utility("w", 1rem, "width", 0.2, 0, 30);
-// @include utility("w-p", 100%, "width", 0.1, 100);
-// @include utility("min-w", 1rem, "min-width", 0.2, 0, 30);
-// @include utility("min-w-p", 100%, "min-width", 0.1, 100);
-// @include utility("vw", 100vw, "width", 0.1, 100);
 .w-fit-content {
   width: fit-content !important;
 }
 .h-fit-content {
   height: fit-content !important;
 }
-// //height
-// @include utility("h", 1rem, "height");
-// @include utility("h-p", 100%, "height", 0.1, 100);
-// @include utility("min-h", 1rem, "min-height");
-// @include utility("min-h-p", 100%, "min-height", 0.1, 100);
-// @include utility("vh", 100vw, "height", 0.1, 100);
-
-// //font-size
-// @include utility("fs", 1rem, "font-size", 0.5);
-
-// //border
-// // @include utility_with_4_sides("border", 1rem, border, "", 0.1);
-
-// //opacity
-// @include utility("opacity", 1, "opacity", 0.1, 10);
-
-// //z-index
-// @include utility("z", 10, "z-index", 100, 10, 5);
-
-// //square
-// @include utility_with_2_properties("square", 100px, "width", "height", 1, 100);
 
 $utilities: (
   "border": (
@@ -256,6 +212,7 @@ $utilities: (
       "none": none,
     ),
   ),
+
   "border-bottom-style": (
     "prefix": "bs-b",
     "values": (
@@ -365,19 +322,8 @@ $utilities: (
       "pre-wrap": pre-wrap,
     ),
   ),
-  "outline": (
-    "prefix": "outline",
-    "values": (
-      "none": none,
-      "0": 0,
-      "1": 1px auto,
-      "2": 2px auto,
-      "3": 3px auto,
-      "4": 4px auto,
-    ),
-  ),
   "outline-offset": (
-    "prefix": "outline-offset",
+    "prefix": "out-off",
     "values": (
       "0": 0,
       "1": 1px,
@@ -387,7 +333,7 @@ $utilities: (
     ),
   ),
   "outline-style": (
-    "prefix": "outline-style",
+    "prefix": "out-s",
     "values": (
       "solid": solid,
       "dashed": dashed,
@@ -436,7 +382,9 @@ $utilities: (
     ),
   ),
 );
-
+.outline-none {
+  outline: none;
+}
 // // generate utility classes
 @each $property, $map in $utilities {
   $prefix: map.get($map, "prefix");
@@ -534,7 +482,9 @@ $sides: (
   .br-w-#{$size} {
     border-width: $value;
   }
-
+  .outline-w-#{$size} {
+    outline-width: $value;
+  }
   // للجوانب الفردية
   @each $side, $property in $sides {
     .br-w-#{$side}-#{$size} {
@@ -640,73 +590,6 @@ $border-radius-sides: (
 .br-r-0 {
   border-radius: 0;
 }
-
-// $margin-sizes: (
-//   0: 0,
-//   1: 0.25rem,
-//   2: 0.5rem,
-//   3: 1rem,
-//   4: 1.5rem,
-//   5: 3rem,
-//   6: 4rem,
-//   7: 6rem,
-//   8: 8rem,
-//   9: 12rem,
-//   10: 16rem,
-//   11: 24rem,
-//   12: 32rem,
-//   13: 48rem,
-//   14: 64rem,
-//   15: 96rem,
-//   16: 128rem,
-//   17: 192rem,
-//   18: 256rem,
-//   19: 384rem,
-//   20: 512rem,
-// );
-
-// @each $size, $value in $margin-sizes {
-//   .m-#{$size} {
-//     margin: $value;
-//   }
-
-//   .mt-#{$size} {
-//     margin-top: $value;
-//   }
-
-//   .mr-#{$size} {
-//     margin-right: $value;
-//   }
-
-//   .mb-#{$size} {
-//     margin-bottom: $value;
-//   }
-
-//   .ml-#{$size} {
-//     margin-left: $value;
-//   }
-
-//   .mx-#{$size} {
-//     margin-left: $value;
-//     margin-right: $value;
-//   }
-
-//   .my-#{$size} {
-//     margin-top: $value;
-//     margin-bottom: $value;
-//   }
-// }
-// //border-radius
-// @include utility_with_4_Corners("br", 1rem, border, radius);
-
-// @include utility("br", 1rem, "border-radius", 0.2, 0, 7);
-// @include utility("br-tl", 1rem, "border-top-left-radius", 0.2, 0, 7);
-// @include utility("br-tr", 1rem, "border-top-right-radius", 0.2, 0, 7);
-// @include utility("br-bl", 1rem, "border-bottom-left-radius", 0.2, 0, 7);
-// @include utility("br-br", 1rem, "border-bottom-right-radius", 0.2, 0, 7);
-
-// //border-width
-// @include utility_with_4_sides("bw", 1rem, border, width, 0.1);
 $object-fit-values: (
   contain: contain,
   cover: cover,

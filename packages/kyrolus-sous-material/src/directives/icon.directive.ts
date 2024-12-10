@@ -14,6 +14,7 @@ import { googleIconFontClass } from '../helpers/constants/font.constants';
   selector: '[ksIcon]',
 })
 export class IconDirective implements OnInit {
+  readonly elmRef = inject(ElementRef);
   ngOnInit(): void {
     // Remove text nodes from the template if the icon type is not google
     if (!this.iconType().includes('google')) {

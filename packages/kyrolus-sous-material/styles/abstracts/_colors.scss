@@ -51,6 +51,14 @@
     .br-l-#{$name}-#{$i} {
       border-left-color: color.change($color, $lightness: ($i * 2.5) * 1%);
     }
+
+    .box-shadow-#{$name}-#{$i} {
+      box-shadow: 0
+        0
+        #{$i *
+        2}px
+        color.change($color, $lightness: ($i * 2.5) * 1%);
+    }
   }
 }
 
@@ -63,6 +71,9 @@
   }
   .br-#{$name} {
     border-color: $color;
+  }
+  .box-shadow-#{$name} {
+    box-shadow: 0 0 7px rgba($color, 0.5);
   }
 }
 
