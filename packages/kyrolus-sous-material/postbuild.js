@@ -22,7 +22,6 @@ console.log("Run PurgeCSS...");
 
 exec("purgecss -css dist/test/*.css --content dist/test/index.html dist/test/*.js -o dist/test/", function (error, stdout, stderr) {
   console.log("PurgeCSS done");
-  console.log();
 
   for (let d of data) {
     // get new file size

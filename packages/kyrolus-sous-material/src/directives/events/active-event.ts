@@ -29,7 +29,6 @@ export class ActiveDirective extends StopEvent<Event> {
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
   onMouseDown(event: Event) {
-    console.log(this.activeClasses);
     if (this.useActiveEvent()) this.toggler.set(true);
     else {
       this.toggler.set(false);

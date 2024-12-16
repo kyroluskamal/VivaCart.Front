@@ -118,7 +118,7 @@ ks-input {
 
   div.input-wrapper {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    &:hover:not(:focus-within) {
+    &:hover:not(:focus-within, :has(input:disabled)) {
       box-shadow: 0 0 0 0.05rem currentColor;
     }
     &[appearance^="ghost"] {
@@ -130,6 +130,11 @@ ks-input {
       &:not(:focus-within) {
         border: 1px solid #ddd;
       }
+    }
+
+    &:has(input:disabled) {
+      background-color: #f5f5f5;
+      opacity: 0.5;
     }
   }
 }

@@ -26,16 +26,24 @@ import {
   InputType,
   InputError,
 } from './input.types';
-import { IconDirective } from '../../directives/icon.directive';
 import { DirectionService } from '../../services/direction.service';
 import { NgTemplateOutlet } from '@angular/common';
-import { FormComponent } from './form.component';
 import { FORM_APPEARANCE, FORM_COLOR } from '../../Tokens/tokens.exports';
 import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
+import { FormComponent } from './form.component';
+import { FormService } from './form.service';
+import { PrefixDirective } from '../../directives/prefix.directive';
+import { SuffixDirective } from '../../directives/suffix.directive';
 
 @Component({
   selector: 'ks-input',
-  imports: [FormsModule, ReactiveFormsModule, NgTemplateOutlet],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+    PrefixDirective,
+    SuffixDirective,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -86,7 +94,7 @@ import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
       }
     </ng-template>
     <ng-template #_input>
-      @if(leftIcon()){
+      @if(leftIcon() !==undefined){
 
       <div
         [class]="leftIconClases() + ' br-' + color()"
@@ -109,10 +117,10 @@ import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
       <input
         (focus)="inputFocused.set(true)"
         [attr.placeholder]="placeholder()"
+        [attr.disabled]="disable() ? true : null"
         [class]="inputClases()"
         [id]="label()"
         [type]="type()"
-        [disabled]="disabled()"
         [required]="isRequired()"
         [readonly]="readonly()"
         [attr.autocomplete]="autocomplete()"
@@ -130,7 +138,7 @@ import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
         [value]="value()"
         [attr.appearance]="appearance()"
       />
-      @if(rightIcon()){
+      @if(rightIcon()!==undefined){
       <div
         [class]="rightIconClases() + ' br-' + color()"
         [class.bg-grey-35]="
@@ -153,14 +161,14 @@ import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
   styles: ``,
 })
 export class InputComponent implements ControlValueAccessor, OnInit {
-  //outline color on focus
-  readonly kyrolusForm = inject(FormComponent, { optional: true });
+  readonly formService = inject(FormService, { host: true, optional: true });
+  kyrolusForm: FormComponent | null = this.formService?.Parent ?? null;
   readonly errorStateMatcher = input<ErrorStateMatcher>(
     this.kyrolusForm?.errorStateMatcher() ?? new KsErrorStateMatcher()
   );
 
-  readonly leftIcon = contentChild(IconDirective); //done
-  readonly rightIcon = contentChild(IconDirective); //done
+  readonly leftIcon = contentChild(PrefixDirective); //done
+  readonly rightIcon = contentChild(SuffixDirective); //done
   readonly formControlName = input<string>(''); //done
   readonly formControl = input<FormControl | null>(null); //done
   readonly type = input<InputType>('text'); //done
@@ -187,7 +195,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
       .map((e) => e.errorKey)
       .join(' ')}`.trim()
   );
-  readonly disabled = model<boolean>(false);
+  readonly disable = model<boolean | null>(null);
   readonly required = input<boolean>(false);
   readonly readonly = input<boolean>(false);
   readonly autocomplete = input<string | null>(null);
@@ -202,7 +210,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   readonly isRequired = computed(
     () =>
       (this.required() || this.control()?.hasValidator(Validators.required)) &&
-      !this.disabled()
+      !this.disable()
   );
   readonly value = signal<any>('');
   readonly dir = inject(DirectionService);
@@ -238,8 +246,6 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     if (control) {
       this.control.set(control);
     }
-
-    console.log(this.control()?.errors);
   }
   // ControlValueAccessor implementation
   onChange = (value: any) => {};
@@ -255,7 +261,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     this.onTouched = fn;
   }
   setDisabledState(isDisabled: boolean): void {
-    this.disabled.set(isDisabled);
+    this.disable.set(isDisabled);
   }
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -312,7 +318,8 @@ export class InputComponent implements ControlValueAccessor, OnInit {
       classes += ` floating-label text-grey-29 ${
         this.dir.direction() === 'ltr' ? 'ml-5' : 'mr-5'
       }`;
-      if (this.inputFocused() || this.control()?.value) {
+
+      if (this.inputFocused() || this.value()) {
         classes += ` _float text-${this.color()}`;
       } else if (this.leftIcon() || this.rightIcon()) {
         classes += ` label-margin`;

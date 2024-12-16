@@ -5,7 +5,6 @@ import {
   inject,
   input,
   OnInit,
-  TemplateRef,
 } from '@angular/core';
 import { IconType } from '../directives/icon.types';
 import { googleIconFontClass } from '../helpers/constants/font.constants';
@@ -17,7 +16,7 @@ export class IconDirective implements OnInit {
   readonly elmRef = inject(ElementRef);
   ngOnInit(): void {
     // Remove text nodes from the template if the icon type is not google
-    if (!this.iconType().includes('google')) {
+    if (!String(this.iconType()).includes('google')) {
       this.template.nativeElement.childNodes.forEach((childNode: any) => {
         if (childNode.nodeType === Node.TEXT_NODE) {
           this.template.nativeElement.removeChild(childNode);

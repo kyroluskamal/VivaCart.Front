@@ -1,4 +1,7 @@
+import { TemplateRef } from '@angular/core';
+import { IconType } from '../../directives/icon.types';
 import { ErrorStateMatcher } from './error-state-matcher';
+import { ValidatorFn } from '@angular/forms';
 
 export type InputColor =
   | 'primary'
@@ -38,12 +41,16 @@ export type InputError = {
   errorMessage?: string;
 };
 
-export type KsForm = {
+export interface KsForm {
   appearance?: InputAppearance;
   color?: InputColor;
   size?: InputSize;
   errorStateMatcher?: ErrorStateMatcher;
+  controlType?: 'c' | 'g' | 'a';
   formControlName?: string;
+  internalFormGroup?: KsForm[];
+  internalFormArray?: KsForm[];
+  template?: TemplateRef<any>;
   formGroupName?: string;
   formArrayName?: string;
   min?: number | null;
@@ -52,13 +59,19 @@ export type KsForm = {
   maxLength?: number | null;
   readonly?: boolean | null;
   required?: boolean;
-  disabled?: boolean;
+  disabled?: boolean | null;
   placeholder?: string | null;
   type?: InputType | null;
   label?: string | null;
-  iconleft?: string | null;
-  iconright?: string | null;
-  errorMessages: InputError[];
+  iconLeft?: { iconType: IconType; iconName: string } | null;
+  iconRight?: { iconType: IconType; iconName: string } | null;
+  errorMessages?: InputError[];
   autocomplete?: string | null;
   pattern?: string | null;
-};
+  order?: number;
+  defaultValue?: any;
+  validators?: ValidatorFn | ValidatorFn[];
+  formArrayTableHeaders?: string[];
+  fieldSetLegend?: string;
+  htmlSeparator?: string;
+}

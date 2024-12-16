@@ -10,35 +10,17 @@
         <span class="text-primary">Viva</span><span class="text-dark">Cart</span>
       </h2>
     </div>
-    <ks-form class="d-flex flex-column gap-3 w-100" appearance="n-vertical" [formGroup]="form">
-      <!-- Basic text input -->
-      <ks-input type="text" label="Username" placeholder="Enter your username" formControlName="username"></ks-input>
-      <ks-input type="text" label="Username" placeholder="Enter your username" formControlName="username"></ks-input>
-
-      <!-- Password input with icon -->
-      <ks-input label="normal-float" placeholder="normal-float" formControlName="password" icon="right">
-        <i ksSuffix ksIcon="house"></i>
-        <i ksPrefix ksIcon="house"></i>
-      </ks-input>
-      <ks-input label="Password" size="md" placeholder="fill" formControlName="password">
-        <span iconRight>🔒</span>
-      </ks-input>
-
-      <!-- Email input with validation -->
-      <ks-input type="email" label="outline" placeholder="outline" formControlName="email">
-
-      </ks-input>
-
-      <!-- Number input -->
-      <ks-input type="number" label="fill" placeholder="fill" formControlName="age" [min]="0" [max]="120">
-        <i ksSuffix ksIcon="house"></i>
-        <i ksPrefix ksIcon="house"></i>
-      </ks-input>
-      <!-- Number input -->
-      <ks-input type="number" label="fill" placeholder="fill" formControlName="age" [min]="0" [max]="120">
-        <i ksSuffix ksIcon="house"></i>
-        <i ksPrefix ksIcon="house"></i>
-      </ks-input>
+    <ks-form [(formRecord)]="formRecord" [formConfig]="formConfig()" class="d-flex flex-column gap-3 w-100">
     </ks-form>
+
   </ks-card>
 </div>
+
+<ng-template #address>
+  <ng-container [formGroup]="getAddressFg()">
+    <ks-input formControlName="street" [label]="'street'" [placeholder]="'Enter your street'"></ks-input>
+
+  </ng-container>
+
+
+</ng-template>
