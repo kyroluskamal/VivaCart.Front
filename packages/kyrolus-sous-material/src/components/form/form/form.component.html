@@ -1,0 +1,93 @@
+@if(formConfig().length>0 && formRecord() !== null){
+
+<ng-container [formGroup]="formRecord()!">
+  @for(conf of formConfig(); track $index){ @if( !['g',
+  'a'].includes(conf.controlType ?? 'c') ){
+  <ks-input [appearance]="conf?.appearance ?? appearance()" [autocomplete]="conf?.autocomplete ?? 'off'"
+    [disable]="conf?.disabled ?? null" [color]="conf?.color ?? color()" [errorMessages]="conf?.errorMessages ?? []"
+    [errorStateMatcher]="conf?.errorStateMatcher ?? errorStateMatcher()" [formControlName]="conf?.formControlName!"
+    [label]="conf.label ?? ''" [maxlength]="conf?.maxLength ?? null" [max]="conf?.max ?? null"
+    [minlength]="conf?.minLength ?? null" [min]="conf?.min ?? null" [pattern]="conf?.pattern ?? ''"
+    [placeholder]="conf?.placeholder ?? null" [readonly]="conf?.readonly ?? false" [required]="conf?.required ?? false"
+    [size]="conf?.size ?? size()" [type]="conf?.type ?? 'text'">
+    @if(conf.iconLeft ){
+    <span ksPrefix [ksIcon]="conf.iconLeft.iconName" [iconType]="conf.iconLeft.iconType">
+      @if(conf?.iconLeft?.iconType && conf?.iconLeft?.iconType !=='google'){
+      {{ conf?.iconLeft?.iconName }}
+      }
+    </span>
+
+    } @if(conf.iconRight ){
+    <span ksSuffix [ksIcon]="conf.iconRight.iconName" [iconType]="conf.iconRight.iconType">
+      @if(conf?.iconRight?.iconType && conf?.iconRight?.iconType !=='google'){
+      {{ conf?.iconLeft?.iconName }}
+      }
+    </span>
+    }
+  </ks-input>
+  }<!-- End !['g', 'a'].includes(conf.controlType ?? 'c') -->
+  @else if(conf.controlType === 'g'){
+
+  <!-- Internal Form Group -->
+  @if(conf.internalFormGroup){
+  <!-- If template -->
+  @if(!conf.template){
+  <!-- If htmlSeparator -->
+  @if(conf.htmlSeparator){
+  <div class="d-contents" [innerHTML]="conf.htmlSeparator!"></div>
+  <ng-container [formGroupName]="conf.formGroupName!">
+    <ks-form [color]="color()" [size]="size()" [errorStateMatcher]="errorStateMatcher()"
+      [appearance]="conf?.appearance ?? appearance()" [formRecord]="getFormRecord(conf.formGroupName!)"
+      [formConfig]="conf.internalFormGroup!"></ks-form>
+  </ng-container>
+  }@else if(conf.fieldSetLegend){
+  <fieldset class="p-5 br-r-3">
+    <legend>{{ conf.fieldSetLegend }}</legend>
+    <ng-container [formGroupName]="conf.formGroupName!">
+      <ks-form [color]="color()" [size]="size()" [errorStateMatcher]="errorStateMatcher()"
+        [appearance]="conf?.appearance ?? appearance()" [formRecord]="getFormRecord(conf.formGroupName!)"
+        [formConfig]="conf.internalFormGroup!"></ks-form>
+    </ng-container>
+  </fieldset>
+  }@else {
+  <ng-container [formGroupName]="conf.formGroupName!">
+    <ks-form [color]="color()" [size]="size()" [errorStateMatcher]="errorStateMatcher()"
+      [appearance]="conf?.appearance ?? appearance()" [formRecord]="getFormRecord(conf.formGroupName!)"
+      [formConfig]="conf.internalFormGroup!"></ks-form>
+  </ng-container>
+  } }<!-- End !conf.template -->
+  @else {
+  <ng-container [ngTemplateOutlet]="conf.template"></ng-container>
+
+  }<!-- If template -->
+  }<!-- End conf.internalFormGroup -->
+  }
+
+  @else{ @if(conf.htmlSeparator){
+  <div class="d-contents" [innerHTML]="conf.htmlSeparator!"></div>
+  } @if(conf.template){
+  <ng-container [ngTemplateOutlet]="conf.template"></ng-container>
+  }@else {
+  <ng-container [formArrayName]="conf.formArrayName!">
+    @let formArray = getFormArrray(conf.formArrayName!);
+
+    <!-- formArray loop -->
+    @for(c of formArray.controls; track $index; let i = $index){
+    <ng-container [formGroupName]="i">
+      <ks-form [color]="color()" [size]="size()" [errorStateMatcher]="errorStateMatcher()"
+        [appearance]="conf?.appearance ?? appearance()"
+        [formRecord]="getFormRecordByIndexFromFormArray(conf.formArrayName!, i)"
+        [formConfig]="conf.internalFormGroup!"></ks-form>
+    </ng-container>
+    }
+  </ng-container>
+
+  } } }
+  <!-- End !['g', 'a'].includes(conf.controlType ?? 'c') -->
+</ng-container>
+
+}@else {
+<ng-content select="ks-input"></ng-content>
+}
+
+<ng-template #defaultTemplate> </ng-template>
