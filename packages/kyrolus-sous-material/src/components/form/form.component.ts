@@ -1,11 +1,19 @@
 import { Component, inject, input, model } from '@angular/core';
-import { InputAppearance, InputColor, InputSize, KsForm } from '../input.types';
+import {
+  InputAppearance,
+  InputColor,
+  InputSize,
+  KsForm,
+} from '../form/input.types';
 import {
   FORM_APPEARANCE,
   FORM_COLOR,
   FORM_SIZE,
-} from '../../../Tokens/tokens.exports';
-import { ErrorStateMatcher, KsErrorStateMatcher } from '../error-state-matcher';
+} from '../../Tokens/tokens.exports';
+import {
+  ErrorStateMatcher,
+  KsErrorStateMatcher,
+} from '../form/error-state-matcher';
 import {
   FormArray,
   FormBuilder,
@@ -14,11 +22,11 @@ import {
   FormRecord,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { InputComponent } from '../input.component';
-import { FormService } from '../form.service';
-import { IconDirective } from '../../../directives/icon.directive';
-import { PrefixDirective } from '../../../directives/prefix.directive';
-import { SuffixDirective } from '../../../directives/suffix.directive';
+import { InputComponent } from '../form/input.component';
+import { FormService } from '../form/form.service';
+import { IconDirective } from '../../directives/icon.directive';
+import { PrefixDirective } from '../../directives/prefix.directive';
+import { SuffixDirective } from '../../directives/suffix.directive';
 import { NgTemplateOutlet } from '@angular/common';
 
 @Component({

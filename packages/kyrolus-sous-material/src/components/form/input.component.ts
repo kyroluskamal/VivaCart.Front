@@ -30,7 +30,7 @@ import { DirectionService } from '../../services/direction.service';
 import { NgTemplateOutlet } from '@angular/common';
 import { FORM_APPEARANCE, FORM_COLOR } from '../../Tokens/tokens.exports';
 import { ErrorStateMatcher, KsErrorStateMatcher } from './error-state-matcher';
-import { FormComponent } from './form/form.component';
+import { FormComponent } from './form.component';
 import { FormService } from './form.service';
 import { PrefixDirective } from '../../directives/prefix.directive';
 import { SuffixDirective } from '../../directives/suffix.directive';
