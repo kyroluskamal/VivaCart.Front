@@ -24,3 +24,6 @@ export * from './helpers/constants/constants.exports';
 
 //form
 export * from './components/form/form.exports';
+
+//alert
+export * from './components/alert/alert.exports';

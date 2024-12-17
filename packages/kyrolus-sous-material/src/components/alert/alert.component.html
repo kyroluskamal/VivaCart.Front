@@ -1,0 +1,44 @@
+@if(isVisible()){
+
+<div class="alert-overlay" [class]="position()" (click)="onOverlayClick($event)" (keydown)="onKeyDown($event)">
+  <!--   width: 4rem;
+  height: 4rem;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem; -->
+  <div [@fadeInOut] class="alert-container" [class]="theme()">
+    @if (icon() !== undefined) {
+    <div class="alert-icon">
+      <div [ksIcon]="icon()!" [iconType]="iconType()" [class]="'icon-'+type()" class="text-white"></div>
+    </div>
+    }
+    @if(title()){
+    <h2 class="alert-title">{{ title() }}</h2>
+    }
+    @if (text()) {
+    <div class="alert-content">{{ text() }}</div>
+    }
+    @if(autoClose()){
+    <div class="alert-progress">
+      <div class="progress-bar" [style.width.%]="progressValue()" [class]="'bg-'+type()">
+      </div>
+    </div>
+    }
+
+    <div class="alert-actions">
+      @if(showCancelButton()){
+      <button ksButton appearance="grey" class="btn-cancel" (click)="onCancel()">
+        {{ cancelButtonText() }}
+      </button>
+      }
+
+      <button ksButton [appearance]="buttonAppearance()" (click)="onConfirm()">
+        {{ confirmButtonText() }}
+      </button>
+    </div>
+  </div>
+</div>
+}

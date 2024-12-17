@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
@@ -11,6 +11,7 @@ import {
   CardModule,
   AvatarDirective,
   SideBarMode,
+  AlertService,
 } from 'kyrolus-sous-material';
 @Component({
   selector: 'app-dashboard',
@@ -35,4 +36,9 @@ export class DashboardComponent {
   openSideBar = signal<boolean>(true);
   sidebarMode = signal<SideBarMode>('side');
   sideBarState = signal<boolean>(true);
+
+  alertService = inject(AlertService);
+  openAlert() {
+    this.alertService.success('This is a success alert');
+  }
 }
