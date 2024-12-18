@@ -3,7 +3,6 @@ import {
   Toast,
   ToastPriority,
   ToastPriorityEnum,
-  ToastType,
   ToastTypeEnum,
 } from './toast.type';
 import { IconType } from '../../directives/icon.types';

@@ -1,4 +1,4 @@
-import { Icon, IconType } from '../../directives/icon.types';
+import { Icon } from '../../directives/icon.types';
 
 export type AlertType = 'success' | 'danger' | 'warning' | 'info' | 'question';
 export type AlertPosition =
