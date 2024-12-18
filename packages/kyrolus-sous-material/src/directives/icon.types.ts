@@ -11,3 +11,5 @@ export type IconType =
   | 'google-outlined'
   | 'google-sharp'
   | 'google-two-tone';
+
+export type Icon = { type: IconType; name: string };

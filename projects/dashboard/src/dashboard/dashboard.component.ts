@@ -12,6 +12,7 @@ import {
   AvatarDirective,
   SideBarMode,
   AlertService,
+  ToastService,
 } from 'kyrolus-sous-material';
 @Component({
   selector: 'app-dashboard',
@@ -41,4 +42,43 @@ export class DashboardComponent {
   openAlert() {
     this.alertService.success('This is a success alert');
   }
+
+  private readonly toastService = inject(ToastService);
+
+  showSuccess() {
+    this.toastService.success('Success', 'Operation completed successfully!');
+  }
+
+  showError() {
+    this.toastService.error('Error', 'Something went wrong. Please try again.');
+  }
+
+  showInfo() {
+    this.toastService.info('Info', 'Your files are being processed.');
+  }
+
+  showWarning() {
+    this.toastService.warning('Warning', 'Your session will expire soon.');
+  }
+
+  // showWithAction() {
+  //   this.toastService.show(
+  //     'Retry Required',
+  //     'Failed to save changes.',
+  //     'error',
+  //     10000,
+  //     'high',
+  //     'Retry',
+  //     () => {
+  //       console.log('Retry action clicked');
+  //       this.toastService.show(
+  //         'Success',
+  //         'Changes saved successfully!',
+  //         'success',
+  //         3000,
+  //         'high'
+  //       );
+  //     }
+  //   );
+  // }
 }

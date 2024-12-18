@@ -1,4 +1,4 @@
-import { IconType } from '../../directives/icon.types';
+import { Icon, IconType } from '../../directives/icon.types';
 
 export type AlertType = 'success' | 'danger' | 'warning' | 'info' | 'question';
 export type AlertPosition =
@@ -16,8 +16,7 @@ export interface AlertConfig {
   type?: AlertType;
   position?: AlertPosition;
   theme?: 'light' | 'dark';
-  icon?: string;
-  iconType?: IconType;
+  icon?: Icon;
   showCancelButton?: boolean;
   confirmButtonText?: string;
   cancelButtonText?: string;

@@ -37,7 +37,15 @@
       </ks-card-header>
       <ks-card-content>
         <p>Card Content</p>
-
+        <div style="padding: 20px;">
+          <h1>Toast Notification Demo</h1>
+          <div style="display: flex; gap: 10px;">
+            <button (click)="showSuccess()">Success Toast</button>
+            <button (click)="showError()">Error Toast</button>
+            <button (click)="showInfo()">Info Toast</button>
+            <button (click)="showWarning()">Warning Toast</button>
+          </div>
+        </div>
       </ks-card-content>
       <ks-card-actions>
         <button ksButton (click)="openAlert()">fdsfsd</button>

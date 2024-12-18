@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AlertComponent, RendererService } from 'kyrolus-sous-material';
+import {
+  AlertComponent,
+  RendererService,
+  ToastComponent,
+} from 'kyrolus-sous-material';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AlertComponent],
+  imports: [RouterOutlet, AlertComponent, ToastComponent],
   providers: [RendererService],
   standalone: true,
   templateUrl: './app.component.html',

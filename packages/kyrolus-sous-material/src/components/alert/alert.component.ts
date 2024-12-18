@@ -30,7 +30,6 @@ export class AlertComponent {
   position = computed(
     () => this.alertService.config()?.position ?? ('center' as AlertPosition)
   );
-  iconType = computed(() => this.alertService.config()?.iconType ?? 'bi');
   theme = computed(() => this.alertService.config()?.theme ?? 'light');
   icon = computed(() => this.alertService.config()?.icon);
   showCancelButton = computed(

@@ -14,7 +14,7 @@ export class AlertService {
     type: 'info',
     position: 'center',
     theme: 'light',
-    iconType: 'bi',
+
     showCancelButton: false,
     cancelButtonText: 'Cancel',
     autoClose: false,
@@ -37,7 +37,7 @@ export class AlertService {
     config: Partial<AlertConfig> = {
       cancelButtonText: 'Close',
       autoClose: 2000,
-      icon: 'check-circle',
+      icon: { type: 'bi', name: 'check-circle' },
     }
   ) {
     this.show({
@@ -54,7 +54,7 @@ export class AlertService {
     title: string = 'Error',
     config: Partial<AlertConfig> = {
       cancelButtonText: 'Close',
-      icon: 'x-circle',
+      icon: { type: 'bi', name: 'x-circle' },
     }
   ) {
     this.show({ ...config, text, title, type: 'danger' });
@@ -66,7 +66,7 @@ export class AlertService {
     config: Partial<AlertConfig> = {
       cancelButtonText: 'Close',
       confirmButtonText: 'OK',
-      icon: 'exclamation-triangle',
+      icon: { type: 'bi', name: 'exclamation-triangle' },
     }
   ) {
     this.show({
@@ -84,7 +84,7 @@ export class AlertService {
     config: Partial<AlertConfig> = {
       autoClose: 5000,
       cancelButtonText: 'Close',
-      icon: 'info-circle',
+      icon: { type: 'bi', name: 'info-circle' },
     }
   ) {
     this.show({ ...this.defaultConfig, ...config, text, title });
@@ -97,7 +97,7 @@ export class AlertService {
       showCancelButton: true,
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel',
-      icon: 'question-circle',
+      icon: { type: 'bi', name: 'question-circle' },
     }
   ) {
     this.show({

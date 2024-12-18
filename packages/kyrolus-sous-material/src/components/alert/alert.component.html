@@ -10,9 +10,9 @@
   justify-content: center;
   font-size: 2rem; -->
   <div [@fadeInOut] class="alert-container" [class]="theme()">
-    @if (icon() !== undefined) {
+    @if (icon() ) {
     <div class="alert-icon">
-      <div [ksIcon]="icon()!" [iconType]="iconType()" [class]="'icon-'+type()" class="text-white"></div>
+      <div [ksIcon]="icon()?.name!" [iconType]="icon()?.type!" [class]="'icon-'+type()" class="text-white"></div>
     </div>
     }
     @if(title()){

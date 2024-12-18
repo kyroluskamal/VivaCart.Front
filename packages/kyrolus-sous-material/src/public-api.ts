@@ -27,3 +27,6 @@ export * from './components/form/form.exports';
 
 //alert
 export * from './components/alert/alert.exports';
+
+//toast
+export * from './components/toast/toast.exports';
