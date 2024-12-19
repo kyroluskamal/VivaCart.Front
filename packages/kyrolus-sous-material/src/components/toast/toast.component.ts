@@ -13,20 +13,18 @@ import { IconDirective } from '../../directives/icon.directive';
 })
 export class ToastComponent {
   toastService = inject(ToastService);
-  soartedToasts = computed(() =>
-    this.toastService.sortedToasts().forEach((toast) => {
-      if (!toast.isPaused) {
-        setTimeout(() => {
-          this.toastService.remove(toast.id);
-        }, toast.duration);
-      }
-    })
-  );
-  constructor() {
-    // Set up automatic removal of toasts when their duration expires
-    effect(() => {});
-  }
 
+  constructor() {
+    effect(() => {
+      this.toastService.sortedToasts().forEach((toast) => {
+        if (!toast.isPaused) {
+          setTimeout(() => {
+            this.toastService.remove(toast.id);
+          }, toast.duration);
+        }
+      });
+    });
+  }
   removeToast(toast: Toast) {
     this.toastService.remove(toast.id);
   }

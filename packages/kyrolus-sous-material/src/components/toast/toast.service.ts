@@ -56,7 +56,15 @@ export class ToastService {
     this.toasts.update((current) => [toast, ...current]);
   }
 
-  info(title: string, message: string, config?: Partial<Toast>) {
+  info(
+    title: string,
+    message: string,
+    config: Partial<Toast> = {
+      duration: 5000,
+      priority: 'medium',
+      isPaused: false,
+    }
+  ) {
     let conf = {
       type: ToastTypeEnum.INFO,
       icon: { type: 'bi' as IconType, name: 'info-circle' },
@@ -65,7 +73,15 @@ export class ToastService {
     this.show(title, message, conf);
   }
 
-  success(title: string, message: string, config?: Partial<Toast>) {
+  success(
+    title: string,
+    message: string,
+    config: Partial<Toast> = {
+      duration: 5000,
+      priority: 'medium',
+      isPaused: false,
+    }
+  ) {
     let conf = {
       type: ToastTypeEnum.SUCCESS,
       icon: { type: 'bi' as IconType, name: 'check-circle' },
@@ -74,7 +90,15 @@ export class ToastService {
     this.show(title, message, conf);
   }
 
-  warning(title: string, message: string, config?: Partial<Toast>) {
+  warning(
+    title: string,
+    message: string,
+    config: Partial<Toast> = {
+      duration: 5000,
+      priority: 'medium',
+      isPaused: false,
+    }
+  ) {
     let conf = {
       type: ToastTypeEnum.WARNING,
       icon: { type: 'bi' as IconType, name: 'exclamation-triangle' },
@@ -83,7 +107,15 @@ export class ToastService {
     this.show(title, message, conf);
   }
 
-  error(title: string, message: string, config?: Partial<Toast>) {
+  error(
+    title: string,
+    message: string,
+    config: Partial<Toast> = {
+      duration: 5000,
+      priority: 'medium',
+      isPaused: false,
+    }
+  ) {
     let conf = {
       type: ToastTypeEnum.ERROR,
       icon: { type: 'bi' as IconType, name: 'x-circle' },

@@ -22,7 +22,8 @@
         }
       </div>
     </div>
-    <div class="progress-bar" [style.animation-duration.ms]="toast.duration + 'ms'" [class.paused]="toast.isPaused">
+    <div class="progress-bar" [style.animation-duration.ms]="toast.duration " [class.paused]="toast.isPaused"
+      [class]="toast.type">
     </div>
   </div>
   }
