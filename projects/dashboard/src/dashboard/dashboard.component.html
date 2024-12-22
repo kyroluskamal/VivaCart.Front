@@ -1,4 +1,4 @@
-<ks-dashboard-layout [sidebarMode]="sidebarMode()" class="bg-grey-38">
+<ks-dashboard-layout [sidebarMode]="sidebarMode()" class="bg-grey-38" [showBackdrop]="openSideBar()">
   <ks-side-nav logo="img/vivacart.png" [(open)]="openSideBar" class="elevation-1 bg-white">
     <ks-accordion-container>
       <ks-accordion-item [headerOnly]="true">
@@ -38,13 +38,7 @@
       <ks-card-content>
         <p>Card Content</p>
         <div style="padding: 20px;">
-          <h1>Toast Notification Demo</h1>
-          <div style="display: flex; gap: 10px;">
-            <button (click)="showSuccess()">Success Toast</button>
-            <button (click)="showError()">Error Toast</button>
-            <button (click)="showInfo()">Info Toast</button>
-            <button (click)="showWarning()">Warning Toast</button>
-          </div>
+          <ks-dialog> </ks-dialog>
         </div>
       </ks-card-content>
       <ks-card-actions>

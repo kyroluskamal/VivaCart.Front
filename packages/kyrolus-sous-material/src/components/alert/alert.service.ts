@@ -5,23 +5,21 @@ import { AlertConfig } from './alert.types';
   providedIn: 'root',
 })
 export class AlertService {
-  readonly config = signal<AlertConfig>({});
-  readonly isVisible = signal<boolean | null>(false);
-  readonly progressValue = signal(100);
-  private readonly defaultConfig: AlertConfig = {
+  readonly config = signal<AlertConfig>({
     title: '',
     text: '',
     type: 'info',
     position: 'center',
     theme: 'light',
-
+    isPaused: false,
     showCancelButton: false,
     cancelButtonText: 'Cancel',
     autoClose: false,
-  };
+  });
+  readonly isVisible = signal<boolean | null>(false);
 
   show(config: AlertConfig) {
-    this.config.set({ ...this.defaultConfig, ...config });
+    this.config.update((x) => ({ ...x, ...config }));
     this.isVisible.set(true);
   }
   update(config: Partial<AlertConfig>) {
@@ -41,8 +39,8 @@ export class AlertService {
     }
   ) {
     this.show({
-      ...this.defaultConfig,
       ...config,
+      icon: config.icon ?? { type: 'bi', name: 'check-circle' },
       text,
       title,
       type: 'success',
@@ -57,7 +55,13 @@ export class AlertService {
       icon: { type: 'bi', name: 'x-circle' },
     }
   ) {
-    this.show({ ...config, text, title, type: 'danger' });
+    this.show({
+      ...config,
+      icon: config.icon ?? { type: 'bi', name: 'x-circle' },
+      text,
+      title,
+      type: 'danger',
+    });
   }
 
   warning(
@@ -70,8 +74,8 @@ export class AlertService {
     }
   ) {
     this.show({
-      ...this.defaultConfig,
       ...config,
+      icon: config.icon ?? { type: 'bi', name: 'exclamation-triangle' },
       text,
       title,
       type: 'warning',
@@ -87,7 +91,12 @@ export class AlertService {
       icon: { type: 'bi', name: 'info-circle' },
     }
   ) {
-    this.show({ ...this.defaultConfig, ...config, text, title });
+    this.show({
+      ...config,
+      icon: config.icon ?? { type: 'bi', name: 'info-circle' },
+      text,
+      title,
+    });
   }
 
   question(
@@ -101,11 +110,21 @@ export class AlertService {
     }
   ) {
     this.show({
-      ...this.defaultConfig,
       ...config,
+      icon: config.icon ?? { type: 'bi', name: 'question-circle' },
       text,
       title,
       type: 'question',
     });
+  }
+
+  pauseTimer() {
+    console.log(this.config);
+    this.config.update((x) => ({ ...x, isPaused: true }));
+    console.log('Timer paused');
+  }
+
+  resumeTimer() {
+    this.config.update((x) => ({ ...x, isPaused: false }));
   }
 }

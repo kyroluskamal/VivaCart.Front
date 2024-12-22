@@ -17,6 +17,7 @@ export interface AlertConfig {
   position?: AlertPosition;
   theme?: 'light' | 'dark';
   icon?: Icon;
+  isPaused?: boolean;
   showCancelButton?: boolean;
   confirmButtonText?: string;
   cancelButtonText?: string;

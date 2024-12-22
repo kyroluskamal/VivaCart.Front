@@ -1,15 +1,8 @@
 @if(isVisible()){
 
-<div class="alert-overlay" [class]="position()" (click)="onOverlayClick($event)" (keydown)="onKeyDown($event)">
-  <!--   width: 4rem;
-  height: 4rem;
-  margin: 0 auto;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem; -->
-  <div [@fadeInOut] class="alert-container" [class]="theme()">
+<div ksBackDrop [class]="position() + ' d-flex f-justify-content-center f-align-items-center'"
+  (click)="onOverlayClick($event)" (keydown)="onKeyDown($event)">
+  <div [@fadeInOut] class="alert-container" [class]="theme()" (mouseenter)="pauseTimer()" (mouseleave)="resumeTimer()">
     @if (icon() ) {
     <div class="alert-icon">
       <div [ksIcon]="icon()?.name!" [iconType]="icon()?.type!" [class]="'icon-'+type()" class="text-white"></div>
@@ -22,10 +15,7 @@
     <div class="alert-content">{{ text() }}</div>
     }
     @if(autoClose()){
-    <div class="alert-progress">
-      <div class="progress-bar" [style.width.%]="progressValue()" [class]="'bg-'+type()">
-      </div>
-    </div>
+    <ks-progress-bar [color]="type()" [durationMs]="castAutoClose()" [paused]="isPaused()!" />
     }
 
     <div class="alert-actions">

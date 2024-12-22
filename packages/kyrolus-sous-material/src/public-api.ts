@@ -30,3 +30,9 @@ export * from './components/alert/alert.exports';
 
 //toast
 export * from './components/toast/toast.exports';
+
+//dialog
+export * from './components/dialog/dialog.exports';
+
+//progress bar
+export * from './components/progress-bar/progress-bar.component';

@@ -5,10 +5,17 @@ import { AlertPosition, AlertType } from './alert.types';
 import { IconDirective } from '../../directives/icon.directive';
 import { ButtonDirective } from '../button/button.directive';
 import { ButtonAppearance } from '../button/button.types';
+import { BackDropDirective } from '../../directives/back-drop.directive';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'ks-alert',
-  imports: [IconDirective, ButtonDirective],
+  imports: [
+    IconDirective,
+    ButtonDirective,
+    BackDropDirective,
+    ProgressBarComponent,
+  ],
   animations: [fadeInOut],
 
   templateUrl: `./alert.component.html`,
@@ -16,8 +23,9 @@ import { ButtonAppearance } from '../button/button.types';
 })
 export class AlertComponent {
   private readonly alertService = inject(AlertService);
-  private readonly progressValueSignal = signal(100);
-
+  private timeoutId: ReturnType<typeof setTimeout> | null = null;
+  private remainingTime: number = 0;
+  private startTime: number = Date.now();
   // Connect to service signals
   isVisible = this.alertService.isVisible;
 
@@ -30,6 +38,22 @@ export class AlertComponent {
   position = computed(
     () => this.alertService.config()?.position ?? ('center' as AlertPosition)
   );
+
+  pauseTimer() {
+    this.alertService.pauseTimer();
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+      this.remainingTime = this.castAutoClose() - (Date.now() - this.startTime);
+    }
+  }
+  resumeTimer() {
+    this.alertService.resumeTimer();
+    if (this.remainingTime > 0) {
+      this.timeoutId = setTimeout(() => {
+        this.alertService.close(false);
+      }, this.remainingTime);
+    }
+  }
   theme = computed(() => this.alertService.config()?.theme ?? 'light');
   icon = computed(() => this.alertService.config()?.icon);
   showCancelButton = computed(
@@ -42,8 +66,10 @@ export class AlertComponent {
     () => this.alertService.config()?.cancelButtonText ?? 'Cancel'
   );
   autoClose = computed(() => this.alertService.config()?.autoClose ?? false);
-
-  progressValue = computed(() => this.progressValueSignal());
+  castAutoClose = computed(() =>
+    typeof this.autoClose() == 'number' ? (this.autoClose() as number) : 0
+  );
+  isPaused = computed(() => this.alertService.config()?.isPaused);
   buttonAppearance = computed(() => {
     const appearnce = this.type();
     if (this.type() === 'question') {
@@ -53,26 +79,28 @@ export class AlertComponent {
   });
 
   constructor() {
-    this.progressValueSignal.set(this.alertService.progressValue());
     effect(() => {
       if (this.isVisible() && this.autoClose()) {
-        this.progressValueSignal.set(100);
-        const duration = this.autoClose() as number;
-        const startTime = Date.now();
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId);
+        }
 
-        const updateProgress = () => {
-          const elapsed = Date.now() - startTime;
-          const remaining = Math.max(0, 100 * (1 - elapsed / duration));
-          this.progressValueSignal.set(remaining);
-
-          if (remaining > 0 && this.isVisible()) {
-            requestAnimationFrame(updateProgress);
-          } else {
-            this.alertService.close(false);
-          }
-        };
-
-        requestAnimationFrame(updateProgress);
+        if (!this.isPaused()) {
+          // Start or resume the timer with the remaining time
+          this.startTime = Date.now();
+          this.timeoutId = setTimeout(
+            () => {
+              this.alertService.close(false);
+            },
+            this.remainingTime > 0 ? this.remainingTime : this.castAutoClose()
+          );
+        }
+      } else {
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId);
+        }
+        this.timeoutId = null;
+        this.remainingTime = 0;
       }
     });
   }
@@ -86,9 +114,7 @@ export class AlertComponent {
   }
 
   onOverlayClick(event: MouseEvent) {
-    if ((event.target as HTMLElement).classList.contains('alert-overlay')) {
-      this.alertService.close(false);
-    }
+    this.alertService.close(false);
   }
 
   onKeyDown(event: KeyboardEvent): void {

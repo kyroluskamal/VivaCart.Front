@@ -13,6 +13,7 @@ import {
   SideBarMode,
   AlertService,
   ToastService,
+  DialogComponent,
 } from 'kyrolus-sous-material';
 @Component({
   selector: 'app-dashboard',
@@ -29,9 +30,11 @@ import {
     CardModule,
     RouterLinkActive,
     RouterLink,
+    DialogComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
+  host: { class: 'position-relative' },
 })
 export class DashboardComponent {
   openSideBar = signal<boolean>(true);
@@ -40,13 +43,17 @@ export class DashboardComponent {
 
   alertService = inject(AlertService);
   openAlert() {
-    this.alertService.success('This is a success alert');
+    this.alertService.success('This is a success alert', "You've done it!", {
+      autoClose: 5000,
+    });
   }
 
   private readonly toastService = inject(ToastService);
 
   showSuccess() {
-    this.toastService.success('Success', 'Operation completed successfully!');
+    this.toastService.success('Success', 'Operation completed successfully!', {
+      isPaused: false,
+    });
   }
 
   showError() {

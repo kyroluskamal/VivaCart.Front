@@ -1,14 +1,29 @@
-import { Component, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  contentChildren,
+  effect,
+  input,
+  model,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SideBarMode } from '../helpers/types';
 import { NgTemplateOutlet } from '@angular/common';
 import { BackDropDirective } from '../directives/back-drop.directive';
 import { DashboardContentComponent } from './dashboard-content.component';
+import { SideNavComponent } from '../components/side-nav.component';
 
 @Component({
   selector: 'ks-dashboard-layout',
   imports: [NgTemplateOutlet, BackDropDirective, DashboardContentComponent],
   template: `
-    <div ksBackDrop [show]="hasBackdrop() && showBackdrop()"></div>
+    <div
+      ksBackDrop
+      [zIndex]="1"
+      [show]="hasBackdrop() && showBackdrop()"
+      (BackdropClick)="backdropClick($event)"
+    ></div>
     @if(sidebarMode()== 'side'){
     <ng-container [ngTemplateOutlet]="sidebar" />
     <div class="d-flex flex-column w-100 h-100">
@@ -47,20 +62,21 @@ import { DashboardContentComponent } from './dashboard-content.component';
           transform var(--transition-duration) var(--transition-easing),
           margin var(--transition-duration) var(--transition-easing);
       }
-      // :host(:has(ks-side-nav[opened='true'] + div)) div {
-      //   transform: translateX(21vw);
-      // }
-      // :host(:has(ks-side-nav[opened='false'] + div)) div {
-      //   transform: translateX(0);
-      // }
   `,
   host: {
-    class: 'w-100 h-100 d-flex flex-column',
+    class: 'w-100 h-100 d-flex flex-column position-relative',
   },
 })
 export class DashboardLayoutComponent {
   contentClases = input<string>('');
+  sidenavs = contentChildren(SideNavComponent);
   sidebarMode = input<SideBarMode>('side');
   hasBackdrop = input<boolean>(true);
-  showBackdrop = input<boolean>(true);
+  showBackdrop = model<boolean>(true);
+  sideNavIsOpened = effect(() => {});
+  backdropClick(event: boolean) {
+    this.sidenavs().forEach((sidebav) => {
+      sidebav.open.set(!event);
+    });
+  }
 }

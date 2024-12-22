@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { toastStateAnimation } from './toast.animation';
 import { Toast } from './toast.type';
 import { ToastService } from './toast.service';
