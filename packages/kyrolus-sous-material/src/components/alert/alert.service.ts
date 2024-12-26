@@ -119,9 +119,7 @@ export class AlertService {
   }
 
   pauseTimer() {
-    console.log(this.config);
     this.config.update((x) => ({ ...x, isPaused: true }));
-    console.log('Timer paused');
   }
 
   resumeTimer() {

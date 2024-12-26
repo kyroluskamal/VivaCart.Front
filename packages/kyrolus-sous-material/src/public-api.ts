@@ -36,3 +36,6 @@ export * from './components/dialog/dialog.exports';
 
 //progress bar
 export * from './components/progress-bar/progress-bar.component';
+
+//animations
+export * from './animations/animations.export';

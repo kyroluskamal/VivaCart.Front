@@ -66,8 +66,6 @@ export class FormComponent {
     this.formRecord.update((record) => {
       return this.createForm(this.formConfig(), record!);
     });
-
-    console.log(this.formConfig());
   }
   getFormRecord(formGroupName: string) {
     return this.formRecord()?.get(formGroupName) as FormRecord<

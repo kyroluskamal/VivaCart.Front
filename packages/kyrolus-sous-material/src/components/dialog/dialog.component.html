@@ -1,0 +1,46 @@
+@if(backdrop.show()){
+
+<div
+  [@fadeInOut]
+  class="dialog-container"
+  (click)="$event.stopPropagation()"
+  (keydown)="$event.stopPropagation()"
+  [style.width]="config()?.width"
+  [style.height]="config()?.height"
+>
+  @if(freeStyleDialogTemplate() || config()?.freeStyleDialogTemplate){
+  <ng-container
+    [ngTemplateOutlet]="config()?.freeStyleDialogTemplate || freeStyleDialogTemplate()"
+  ></ng-container>
+  }@else { @if(!this.opendProgrammatically()){
+  <ng-content select="ks-dialog-header"></ng-content>
+  @if( componentContentType() != null){
+  <ng-container [ngComponentOutlet]="componentContentType()"></ng-container>
+  }@else {
+  <ng-content></ng-content>
+  }
+  <ng-content select="[dialogFooter]"></ng-content>
+  } @else { @if(config()?.title){
+  <ks-dialog-header>
+    <span ksDialogTitle>
+      {{ config()?.title }}
+    </span>
+  </ks-dialog-header>
+  } @if(this.contentComponent()?.componentType != null &&
+  this.opendProgrammatically()){
+  <ks-dialog-content>
+    <ng-container
+      [ngComponentOutlet]="this.contentComponent()?.componentType || null"
+    ></ng-container>
+  </ks-dialog-content>
+
+  }
+  <ks-dialog-actions>
+
+   <button ksButton [size]="'sm'"></button>
+  </ks-dialog-actions>
+
+   } }
+</div>
+
+}

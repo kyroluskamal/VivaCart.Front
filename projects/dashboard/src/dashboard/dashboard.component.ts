@@ -1,4 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  computed,
+  effect,
+  Inject,
+  inject,
+  Injector,
+  runInInjectionContext,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import {
@@ -14,7 +25,11 @@ import {
   AlertService,
   ToastService,
   DialogComponent,
+  DialogService,
+  DialogRef,
+  DialogModule,
 } from 'kyrolus-sous-material';
+import { TestComponent } from '../test/test.component';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -30,21 +45,37 @@ import {
     CardModule,
     RouterLinkActive,
     RouterLink,
-    DialogComponent,
+    DialogModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   host: { class: 'position-relative' },
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit {
+  ngAfterViewInit(): void {}
+
+  testComp = TestComponent;
   openSideBar = signal<boolean>(true);
   sidebarMode = signal<SideBarMode>('side');
   sideBarState = signal<boolean>(true);
-
+  dialogService = inject(DialogService);
+  dialogRef = signal<DialogRef>({} as DialogRef);
   alertService = inject(AlertService);
+  showdilaog = signal<boolean>(false);
+  dialog = viewChild(DialogComponent);
+
+  intector = inject(Injector);
+  opendialog = signal<boolean>(true);
   openAlert() {
-    this.alertService.success('This is a success alert', "You've done it!", {
-      autoClose: 5000,
+    this.showdilaog.set(true);
+    this.dialogRef.set(
+      this.dialogService.open(TestComponent, { data: 'test data' })
+    );
+
+    runInInjectionContext(this.intector, () => {
+      effect(() => {
+        console.log(this.dialogRef().afterClosed());
+      });
     });
   }
 

@@ -5,6 +5,7 @@ import {
   input,
   model,
   output,
+  signal,
 } from '@angular/core';
 
 @Directive({
@@ -16,6 +17,7 @@ export class BackDropDirective {
   closeByClickOrEsc = input<boolean>(true);
   BackdropClick = output<boolean>();
   zIndex = input<number>(9999);
+  backDropClicked = signal<boolean>(false);
   @HostBinding('class') get _show() {
     if (this.show())
       return 'backdrop-show position-fixed w-100 h-100 top-0 left-0';
@@ -29,10 +31,9 @@ export class BackDropDirective {
   @HostListener('keydown.esc')
   onClick() {
     if (this.closeByClickOrEsc()) {
-      this.BackdropClick.emit(true);
       this.show.update((x) => !x);
-    } else {
-      this.BackdropClick.emit(false);
     }
+    this.BackdropClick.emit(this.closeByClickOrEsc());
+    this.backDropClicked.set(true);
   }
 }
