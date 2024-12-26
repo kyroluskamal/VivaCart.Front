@@ -1,5 +1,9 @@
 import { AfterViewChecked, Component, inject } from '@angular/core';
-import { DialogComponent, DialogService } from 'kyrolus-sous-material';
+import {
+  DialogComponent,
+  DialogConfig,
+  DialogService,
+} from 'kyrolus-sous-material';
 import { Test2Component } from '../test2/test2.component';
 
 @Component({
@@ -10,16 +14,18 @@ import { Test2Component } from '../test2/test2.component';
 })
 export class TestComponent implements AfterViewChecked {
   ngAfterViewChecked(): void {
-    console.log(this.dialogRef?.config()?.data);
+    this.dialogRef?.result.set(22222);
   }
   dialogService = inject(DialogService);
   dialogRef = inject(DialogComponent, { optional: true });
 
   closeDialog() {
-    this.dialogRef?.close(22222);
+    this.dialogRef?.result.set(22222);
   }
 
   openDialog() {
-    this.dialogService.open(Test2Component, { data: 'test data2' });
+    const dialogConfig = new DialogConfig<string>();
+    dialogConfig.data = 'test data';
+    this.dialogService.open(Test2Component, dialogConfig);
   }
 }

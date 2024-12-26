@@ -9,3 +9,4 @@ export * from './suffix.directive';
 export * from './prefix.directive';
 export * from './ripple.directive';
 export * from './avatar.directive';
+export * from './draggable.directive';

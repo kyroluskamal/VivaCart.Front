@@ -1,9 +1,7 @@
 import {
   AfterViewInit,
   Component,
-  computed,
   effect,
-  Inject,
   inject,
   Injector,
   runInInjectionContext,
@@ -28,6 +26,7 @@ import {
   DialogService,
   DialogRef,
   DialogModule,
+  DialogConfig,
 } from 'kyrolus-sous-material';
 import { TestComponent } from '../test/test.component';
 @Component({
@@ -66,11 +65,13 @@ export class DashboardComponent implements AfterViewInit {
 
   intector = inject(Injector);
   opendialog = signal<boolean>(true);
+  dialogCondig = signal(new DialogConfig());
   openAlert() {
     this.showdilaog.set(true);
-    this.dialogRef.set(
-      this.dialogService.open(TestComponent, { data: 'test data' })
-    );
+    const dialogConfig = new DialogConfig();
+    dialogConfig.data = 'test data';
+    dialogConfig.hasBackdrop = true;
+    this.dialogRef.set(this.dialogService.open(TestComponent, dialogConfig));
 
     runInInjectionContext(this.intector, () => {
       effect(() => {

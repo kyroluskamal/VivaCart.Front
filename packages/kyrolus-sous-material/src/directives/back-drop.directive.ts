@@ -7,7 +7,6 @@ import {
   output,
   signal,
 } from '@angular/core';
-
 @Directive({
   selector: '[ksBackDrop]',
   host: { class: 'position-fixed w-100 h-100' },
@@ -16,7 +15,7 @@ export class BackDropDirective {
   show = model<boolean>(true);
   closeByClickOrEsc = input<boolean>(true);
   BackdropClick = output<boolean>();
-  zIndex = input<number>(9999);
+  zIndex = input<number>(4);
   backDropClicked = signal<boolean>(false);
   @HostBinding('class') get _show() {
     if (this.show())

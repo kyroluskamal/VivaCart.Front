@@ -9,6 +9,7 @@ export type ButtonAppearance =
   | 'info'
   | 'light'
   | 'dark'
-  | 'grey';
+  | 'grey'
+  | 'custom';
 export type ButtonState = 'default' | 'hover' | 'active' | 'disabled';
 export type ButtonVariant = 'solid' | 'outline' | 'ghost' | 'link' | 'text';

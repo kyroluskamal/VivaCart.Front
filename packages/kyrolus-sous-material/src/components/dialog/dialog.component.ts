@@ -1,14 +1,12 @@
 import {
   Component,
   ComponentRef,
-  computed,
-  effect,
   ElementRef,
   HostBinding,
   inject,
   input,
   model,
-  OnInit,
+  output,
   signal,
   TemplateRef,
   Type,
@@ -23,6 +21,8 @@ import { DialogActionsComponent } from './dialog-actions.component';
 import { DialogContentComponent } from './dialog-content.component';
 import { DialogTitleDirective } from './dialog-title.directive';
 import { ButtonDirective } from '../button/button.directive';
+import { DialogService } from './dialog.service';
+import { DraggableDirective } from '../../directives/draggable.directive';
 
 @Component({
   selector: 'ks-dialog',
@@ -37,36 +37,24 @@ import { ButtonDirective } from '../button/button.directive';
     DialogActionsComponent,
     DialogContentComponent,
     DialogTitleDirective,
+    BackDropDirective,
     ButtonDirective,
-  ],
-  hostDirectives: [
-    {
-      directive: BackDropDirective,
-      inputs: ['zIndex', 'closeByClickOrEsc'],
-      outputs: ['BackdropClick'],
-    },
+    DraggableDirective,
   ],
 })
 export class DialogComponent {
-  effect = effect(() => {
-    if (this.backdrop.backDropClicked()) {
-      this.close();
-    }
-  });
   document = inject(DOCUMENT);
   elementRef = inject(ElementRef);
   id = model<string>('dialog');
   componentContentType = input<Type<any> | null>(null);
-  backdrop = inject(BackDropDirective);
-  config = model<DialogConfig>();
+  config = model<DialogConfig<any>>(new DialogConfig());
   result = signal<any>(null);
   contentComponent = model<ComponentRef<any> | null>(null);
   opendProgrammatically = signal<boolean>(false);
   open = model<boolean>(false);
+  onBackdropClick = output<boolean>();
   freeStyleDialogTemplate = input<TemplateRef<any> | null>(null);
-  effec = effect(() => {
-    this.backdrop.show.set(this.open());
-  });
+  dialogService = inject(DialogService);
   @HostBinding('class')
   get dialogClass() {
     return [
@@ -81,12 +69,15 @@ export class DialogComponent {
   toTemplateRef(ele: any) {
     return ele as TemplateRef<any>;
   }
-
+  backdropClicked(event: boolean) {
+    if (this.config()?.hasBackdrop && this.config().closeOnBackdropClick) {
+      this.close();
+      this.onBackdropClick.emit(event);
+    }
+  }
   close(result?: any) {
     this.open.set(false);
-    this.backdrop.BackdropClick.emit(true);
     this.result.set(result);
     this.contentComponent()?.destroy();
-    this.backdrop.backDropClicked.set(false);
   }
 }

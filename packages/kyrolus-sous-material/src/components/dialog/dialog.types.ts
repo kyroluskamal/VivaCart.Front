@@ -1,4 +1,5 @@
 import { Signal, TemplateRef } from '@angular/core';
+import { Draggable } from '../../public-api';
 
 export type DialogPosition =
   | 'top-left'
@@ -11,39 +12,36 @@ export type DialogPosition =
   | 'bottom-right'
   | 'center';
 
-export interface DialogConfig<T = any> {
+export class DialogConfig<T = any> {
   id?: string;
   width?: string;
   height?: string;
-  position?: DialogPosition;
+  position?: DialogPosition = 'center';
   data?: T;
   title?: string;
-  draggable?: boolean;
-  resizable?: boolean;
-  maximizable?: boolean;
-  minimizable?: boolean;
-  fullscreen?: boolean;
-  freeStyleDialogTemplate?: TemplateRef<any>;
-  backdrop?: boolean | 'static';
-  closeOnEscape?: boolean;
-  closeOnBackdropClick?: boolean;
-  zIndex?: number;
-  panelClass?: string | string[];
-  hasBackdrop?: boolean;
-  backdropClass?: string;
-  autoFocus?: boolean;
-  restoreFocus?: boolean;
-  headerTemplate?: string | TemplateRef<any>;
-  contentTemplate?: string | TemplateRef<any>;
-  footerTemplate?: string | TemplateRef<any>;
-  closeButtonText?: string;
-  actionButtonText?: string;
+  draggable: Draggable = { isDraggable: false, reset: false };
+  resizable?: boolean = false;
+  maximizable?: boolean = false;
+  minimizable?: boolean = false;
+  fullscreen?: boolean = false;
+  freeStyleDialogTemplate?: TemplateRef<any> | null = null;
+  closeOnEscape?: boolean = true;
+  closeOnBackdropClick?: boolean = true;
+  zIndex?: number = 99999;
+  panelClass?: string | string[] = '';
+  hasBackdrop?: boolean = false;
+  backdropClass?: string = '';
+  autoFocus?: boolean = false;
+  restoreFocus?: boolean = true;
+  headerTemplate?: string | TemplateRef<any> = '';
+  contentTemplate: TemplateRef<any> | null = null;
+  footerTemplate?: string | TemplateRef<any> = '';
+  closeButtonText?: string = 'Close';
+  useActionButton?: boolean = true;
+  actionButtonText?: string = 'Ok';
 }
 export interface DialogRef<TComponent = any, Tdata = any> {
-  close: Signal<any>;
   afterClosed: Signal<any>;
-  updatePosition: (position: DialogPosition) => void;
-  updateSize: (width: string, height: string) => void;
   getData: () => Tdata;
   componentInstance: TComponent;
 }

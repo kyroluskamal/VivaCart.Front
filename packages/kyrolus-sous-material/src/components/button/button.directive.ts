@@ -48,7 +48,6 @@ export class ButtonDirective {
   );
   @HostBinding('class')
   get class(): string {
-    console.log(this.size());
     return this.classes();
   }
   @HostListener('click', ['$event'])
