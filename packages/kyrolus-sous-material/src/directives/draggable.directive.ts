@@ -13,7 +13,7 @@ export type Draggable = { isDraggable: boolean; reset: boolean };
 })
 export class DraggableDirective {
   ksDraggable = input<Draggable>({ isDraggable: true, reset: false });
-  el = inject(ElementRef);
+  elementRef = input(inject(ElementRef));
   isDragging = signal<boolean>(false);
   reset = signal<boolean>(false);
   private readonly elementPosition = signal<{ x: number; y: number }>({
@@ -27,13 +27,13 @@ export class DraggableDirective {
   @HostListener('pointerdown', ['$event'])
   onMouseDown(event: MouseEvent) {
     if (!this.ksDraggable() || event.button !== 0) return;
-    if (this.ksDraggable() && event.button === 0) {
+    if (this.ksDraggable().isDraggable && event.button === 0) {
       this.isDragging.set(true);
       this.startPosition.set({
         x: event.clientX - this.elementPosition().x,
         y: event.clientY - this.elementPosition().y,
       });
-      this.el.nativeElement.style.cursor = 'move';
+      this.elementRef().nativeElement.style.cursor = 'move';
     }
   }
   @HostListener('document:pointermove', ['$event'])
@@ -43,7 +43,7 @@ export class DraggableDirective {
       x: event.clientX - this.startPosition().x,
       y: event.clientY - this.startPosition().y,
     });
-    this.el.nativeElement.style.transform = `translate(${
+    this.elementRef().nativeElement.style.transform = `translate(${
       this.elementPosition().x
     }px, ${this.elementPosition().y}px)`;
   }
@@ -51,11 +51,11 @@ export class DraggableDirective {
   onMouseUp() {
     if (!this.isDragging()) return;
     this.isDragging.set(false);
-    this.el.nativeElement.style.cursor = 'default';
+    this.elementRef().nativeElement.style.cursor = 'default';
 
     if (this.reset()) {
       this.elementPosition.set({ x: 0, y: 0 });
-      this.el.nativeElement.style.transform = `translate(0px, 0px)`;
+      this.elementRef().nativeElement.style.transform = `translate(0px, 0px)`;
     }
   }
 }

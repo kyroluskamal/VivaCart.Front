@@ -1,11 +1,10 @@
 
 @if(open()){
   @if(config().hasBackdrop){
-    <div ksBackDrop [(show)]="open" [zIndex]="1" (BackdropClick)="backdropClicked($event)"></div>
+    <div [styleClases]="config().backdropClasses"   ksBackDrop [(show)]="open" [zIndex]="1" [closeByClick]="config().closeOnBackdropClick" [closeByEscape]="false" (BackdropClick)="backdropClicked($event)"></div>
   }
 
 <dialog
-  [ksDraggable]="config().draggable"
   [@fadeInOut]
   class="dialog-container"
   [class]="config().panelClass"
@@ -13,11 +12,16 @@
   (keydown)="$event.stopPropagation()"
   [style.width]="config().width"
   [style.height]="config().height"
+  [class.fullscreen]="config().fullscreen"
   [attr.aria-labelledby]="id()"
   [attr.aria-modal]="true"
+  ksResizable
+  [enabled]="config().resizable"
+  #dialog
 >
-  @if(config().draggable){
-    <div [class.draggable]="config().draggable" [style.height.px]="20"></div>
+  @if(config().draggable.isDraggable){
+    <div   [ksDraggable]="config().draggable" [elementRef]="dialogRef()!"
+    [class.draggable]="config().draggable.isDraggable" [style.height.px]="20"></div>
   }
   @if(freeStyleDialogTemplate() || config().freeStyleDialogTemplate){
   <ng-container
@@ -69,6 +73,5 @@
       }
     }
   }
-  <div class="resize-handle"></div>
 </dialog>
 }

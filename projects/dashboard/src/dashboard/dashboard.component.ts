@@ -70,7 +70,6 @@ export class DashboardComponent implements AfterViewInit {
     this.showdilaog.set(true);
     const dialogConfig = new DialogConfig();
     dialogConfig.data = 'test data';
-    dialogConfig.hasBackdrop = true;
     this.dialogRef.set(this.dialogService.open(TestComponent, dialogConfig));
 
     runInInjectionContext(this.intector, () => {

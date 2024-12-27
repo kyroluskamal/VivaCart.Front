@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   Component,
   ComponentRef,
   ElementRef,
   HostBinding,
+  HostListener,
   inject,
   input,
   model,
@@ -10,11 +12,12 @@ import {
   signal,
   TemplateRef,
   Type,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { BackDropDirective } from '../../directives/back-drop.directive';
 import { DialogConfig } from './dialog.types';
-import { DOCUMENT, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { fadeInOut } from '../../animations/animations.export';
 import { DialogHeaderComponent } from './dialog-header.component';
 import { DialogActionsComponent } from './dialog-actions.component';
@@ -23,6 +26,8 @@ import { DialogTitleDirective } from './dialog-title.directive';
 import { ButtonDirective } from '../button/button.directive';
 import { DialogService } from './dialog.service';
 import { DraggableDirective } from '../../directives/draggable.directive';
+import { ResizableDirective } from '../../directives/resizable.directive';
+import { DIALOG_DEFAULT_CONFIG } from './dialog.tokens';
 
 @Component({
   selector: 'ks-dialog',
@@ -40,14 +45,18 @@ import { DraggableDirective } from '../../directives/draggable.directive';
     BackDropDirective,
     ButtonDirective,
     DraggableDirective,
+    ResizableDirective,
   ],
 })
-export class DialogComponent {
-  document = inject(DOCUMENT);
+export class DialogComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
+    this.elementRef.nativeElement.focus();
+  }
+  dialogRef = viewChild('dialog', { read: ElementRef });
   elementRef = inject(ElementRef);
   id = model<string>('dialog');
   componentContentType = input<Type<any> | null>(null);
-  config = model<DialogConfig<any>>(new DialogConfig());
+  config = model<DialogConfig<any>>(inject(DIALOG_DEFAULT_CONFIG));
   result = signal<any>(null);
   contentComponent = model<ComponentRef<any> | null>(null);
   opendProgrammatically = signal<boolean>(false);
@@ -79,5 +88,16 @@ export class DialogComponent {
     this.open.set(false);
     this.result.set(result);
     this.contentComponent()?.destroy();
+  }
+  @HostBinding('tabindex') get tabIndex() {
+    return -1;
+  }
+  @HostListener('keydown.esc')
+  onEscClick() {
+    this.elementRef.nativeElement.focus();
+
+    if (this.config()?.closeOnEscape) {
+      this.close();
+    }
   }
 }
