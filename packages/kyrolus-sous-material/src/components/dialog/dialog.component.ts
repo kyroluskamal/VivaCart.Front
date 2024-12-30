@@ -78,7 +78,6 @@ export class DialogComponent implements AfterViewInit, OnInit {
   onBackdropClick = output<boolean>();
   freeStyleDialogTemplate = input<TemplateRef<any> | null>(null);
   dialogService = inject(DialogService);
-  transform = signal<string>('');
   readonly isMinimized = computed(
     () => this.config().isMinimized && this.config().isMinimizable
   );
