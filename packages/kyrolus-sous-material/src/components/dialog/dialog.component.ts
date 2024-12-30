@@ -2,12 +2,14 @@ import {
   AfterViewInit,
   Component,
   ComponentRef,
+  computed,
   ElementRef,
   HostBinding,
   HostListener,
   inject,
   input,
   model,
+  OnInit,
   output,
   signal,
   TemplateRef,
@@ -25,9 +27,16 @@ import { DialogContentComponent } from './dialog-content.component';
 import { DialogTitleDirective } from './dialog-title.directive';
 import { ButtonDirective } from '../button/button.directive';
 import { DialogService } from './dialog.service';
-import { DraggableDirective } from '../../directives/draggable.directive';
-import { ResizableDirective } from '../../directives/resizable.directive';
+import {
+  DraggableDirective,
+  DraggableEvent,
+} from '../../directives/draggable.directive';
+import {
+  ResizableDirective,
+  ResizeEvent,
+} from '../../directives/resizable.directive';
 import { DIALOG_DEFAULT_CONFIG } from './dialog.tokens';
+import { IconDirective } from '../../directives/icon.directive';
 
 @Component({
   selector: 'ks-dialog',
@@ -46,12 +55,17 @@ import { DIALOG_DEFAULT_CONFIG } from './dialog.tokens';
     ButtonDirective,
     DraggableDirective,
     ResizableDirective,
+    IconDirective,
   ],
 })
-export class DialogComponent implements AfterViewInit {
+export class DialogComponent implements AfterViewInit, OnInit {
+  ngOnInit(): void {
+    this.applyBreakpoints();
+  }
   ngAfterViewInit(): void {
     this.elementRef.nativeElement.focus();
   }
+  backDrop = viewChild(BackDropDirective);
   dialogRef = viewChild('dialog', { read: ElementRef });
   elementRef = inject(ElementRef);
   id = model<string>('dialog');
@@ -64,6 +78,13 @@ export class DialogComponent implements AfterViewInit {
   onBackdropClick = output<boolean>();
   freeStyleDialogTemplate = input<TemplateRef<any> | null>(null);
   dialogService = inject(DialogService);
+  transform = signal<string>('');
+  readonly isMinimized = computed(
+    () => this.config().isMinimized && this.config().isMinimizable
+  );
+  readonly isMaximized = computed(
+    () => this.config().isMaximized && this.config().isMaximizable
+  );
   @HostBinding('class')
   get dialogClass() {
     return [
@@ -99,5 +120,69 @@ export class DialogComponent implements AfterViewInit {
     if (this.config()?.closeOnEscape) {
       this.close();
     }
+  }
+  minimize(minimize: boolean) {
+    this.config.update((config) => {
+      let conf = { ...config, isMinimized: minimize };
+      if (minimize && config.isMaximized && config.isMaximizable) {
+        conf = { ...conf, isMaximized: false };
+      }
+
+      if (
+        !minimize &&
+        config.fullscreen &&
+        !conf.isMaximized &&
+        config.isMaximizable
+      ) {
+        conf = { ...conf, isMaximized: true };
+      }
+
+      return conf;
+    });
+  }
+
+  maximize(maximize: boolean) {
+    this.config.update((config) => {
+      let conf = { ...config, isMaximized: maximize, fullscreen: maximize };
+      if (maximize && config.isMinimized && config.isMinimizable) {
+        conf = { ...conf, isMinimized: false };
+      }
+      return conf;
+    });
+  }
+
+  private applyBreakpoints(): void {
+    const screenWidth = window.innerWidth;
+    if (this.config().breakpoints !== undefined) {
+      // Iterate over breakpoints and find the most suitable one
+      for (const breakpoint of Object.keys(this.config().breakpoints!).sort(
+        (a, b) => parseInt(b) - parseInt(a)
+      )) {
+        if (screenWidth <= parseInt(breakpoint)) {
+          this.config.update((config) => {
+            return { ...config, width: this.config().breakpoints![breakpoint] };
+          });
+          return;
+        }
+      }
+    }
+  }
+  onResizeEnd(event: ResizeEvent) {
+    this.config.update((config) => {
+      return {
+        ...config,
+        width: `${event.width}px`,
+        height: `${event.height}px`,
+      };
+    });
+  }
+  setTransform(event: DraggableEvent) {
+    this.config.update((config) => {
+      return { ...config, transform: event.transform };
+    });
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(): void {
+    this.applyBreakpoints();
   }
 }

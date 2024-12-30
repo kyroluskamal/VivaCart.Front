@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   effect,
   inject,
@@ -50,9 +49,7 @@ import { TestComponent } from '../test/test.component';
   styleUrl: './dashboard.component.scss',
   host: { class: 'position-relative' },
 })
-export class DashboardComponent implements AfterViewInit {
-  ngAfterViewInit(): void {}
-
+export class DashboardComponent {
   testComp = TestComponent;
   openSideBar = signal<boolean>(true);
   sidebarMode = signal<SideBarMode>('side');
@@ -70,6 +67,10 @@ export class DashboardComponent implements AfterViewInit {
     this.showdilaog.set(true);
     const dialogConfig = new DialogConfig();
     dialogConfig.data = 'test data';
+    dialogConfig.title =
+      'This is the title of this dialog this is should be long';
+    dialogConfig.isMinimizable = true;
+    dialogConfig.isMinimized = false;
     this.dialogRef.set(this.dialogService.open(TestComponent, dialogConfig));
 
     runInInjectionContext(this.intector, () => {

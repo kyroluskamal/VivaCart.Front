@@ -1,7 +1,7 @@
 
 @if(open()){
   @if(config().hasBackdrop){
-    <div [styleClases]="config().backdropClasses"   ksBackDrop [(show)]="open" [zIndex]="1" [closeByClick]="config().closeOnBackdropClick" [closeByEscape]="false" (BackdropClick)="backdropClicked($event)"></div>
+    <div [styleClases]="config().backdropClasses"  ksBackDrop [(show)]="open" [zIndex]="1" [closeByClick]="config().closeOnBackdropClick" [closeByEscape]="false" (BackdropClick)="backdropClicked($event)"></div>
   }
 
 <dialog
@@ -15,61 +15,79 @@
   [class.fullscreen]="config().fullscreen"
   [attr.aria-labelledby]="id()"
   [attr.aria-modal]="true"
+  [class.minimized]="isMinimized()"
   ksResizable
+  (resizeEnd)="onResizeEnd($event)"
   [enabled]="config().resizable"
   #dialog
 >
-  @if(config().draggable.isDraggable){
-    <div   [ksDraggable]="config().draggable" [elementRef]="dialogRef()!"
-    [class.draggable]="config().draggable.isDraggable" [style.height.px]="20"></div>
-  }
-  @if(freeStyleDialogTemplate() || config().freeStyleDialogTemplate){
-  <ng-container
-    [ngTemplateOutlet]="config().freeStyleDialogTemplate || freeStyleDialogTemplate()"
-  ></ng-container>
-  }@else {
-    <!--  -->
-    @if(!this.opendProgrammatically()){
-     <ng-content select="ks-dialog-header"></ng-content>
-      @if( componentContentType() != null){
-        <ng-container [ngComponentOutlet]="componentContentType()"></ng-container>
-      }@if(config().contentTemplate){
-        <ng-container [ngTemplateOutlet]="config().contentTemplate"></ng-container>
-      }
-      @else {
-        <ng-content select="ks-dialog-content"></ng-content>
-      }
-     <ng-content select="ks-dialog-actions"></ng-content>
-    } @else {
-      <!--  -->
-      @if(config().title){
-        <ks-dialog-header>
-          <span ksDialogTitle> {{ config().title }} </span>
-        </ks-dialog-header>
-      }
-      <!--  -->
-      <ks-dialog-content>
-        @if(this.contentComponent()?.componentType != null){
-        <ng-container
-          [ngComponentOutlet]="this.contentComponent()?.componentType || null"
-        ></ng-container>
-        }
-        @else if(this.config().contentTemplate){
-        <ng-container
-          [ngTemplateOutlet]="this.config().contentTemplate"
-        ></ng-container>
-        }
-      </ks-dialog-content>
-      @if(config().useActionButton){
-        <ks-dialog-actions>
-          <button ksButton size="sm" appearance="custom" (click)="close()" class="close-button">
-            Close
-          </button>
+  <div class="dialog-controls">
+    @if(config().draggable.isDraggable && !isMinimized() && !isMaximized()){
+    <button   [ksDraggable]="config().draggable" [elementRef]="dialogRef()!" ksIcon="arrows-move" style="position: relative;"
+    [class.draggable]="config().draggable.isDraggable" [style.height.px]="20" (onDragEnd)="setTransform($event)"></button>
+    }
+    @if(config().isMinimizable){
+      <button (click)="minimize(!isMinimized())" [ksIcon]="isMinimized()? 'window-dock' : 'dash'"></button>
+    }
+    @if(config().isMaximizable){
+      <button (click)="maximize(!isMaximized())" [ksIcon]="isMaximized()? 'fullscreen-exit' : 'fullscreen'"></button>
+    }
+    <button (click)="close()" ksIcon="x"></button>
+  </div>
 
-          <button ksButton size="sm" appearance="primary" (click)="close(result())">
-            {{ config().actionButtonText}}
-          </button>
-        </ks-dialog-actions>
+  @if(config().isMinimizable && isMinimized()){
+    <div class="minimized-title">
+      <span>{{ config().title || config().textWhenMinimized }}</span>
+    </div>
+  }@else{
+    @if(freeStyleDialogTemplate() || config().freeStyleDialogTemplate){
+    <ng-container
+      [ngTemplateOutlet]="config().freeStyleDialogTemplate || freeStyleDialogTemplate()"
+    ></ng-container>
+    }@else {
+      <!--  -->
+      @if(!this.opendProgrammatically()){
+       <ng-content select="ks-dialog-header"></ng-content>
+        @if( componentContentType() != null){
+          <ng-container [ngComponentOutlet]="componentContentType()"></ng-container>
+        }@if(config().contentTemplate){
+          <ng-container [ngTemplateOutlet]="config().contentTemplate"></ng-container>
+        }
+        @else {
+          <ng-content select="ks-dialog-content"></ng-content>
+        }
+       <ng-content select="ks-dialog-actions"></ng-content>
+      } @else {
+        <!--  -->
+        @if(config().title){
+          <ks-dialog-header>
+            <span ksDialogTitle> {{ config().title }} </span>
+          </ks-dialog-header>
+        }
+        <!--  -->
+        <ks-dialog-content>
+          @if(this.contentComponent()?.componentType != null){
+          <ng-container
+            [ngComponentOutlet]="this.contentComponent()?.componentType || null"
+          ></ng-container>
+          }
+          @else if(this.config().contentTemplate){
+          <ng-container
+            [ngTemplateOutlet]="this.config().contentTemplate"
+          ></ng-container>
+          }
+        </ks-dialog-content>
+        @if(config().useActionButton){
+          <ks-dialog-actions>
+            <button ksButton size="sm" appearance="custom" (click)="close()" class="close-button">
+              Close
+            </button>
+
+            <button ksButton size="sm" appearance="primary" (click)="close(result())">
+              {{ config().actionButtonText}}
+            </button>
+          </ks-dialog-actions>
+        }
       }
     }
   }

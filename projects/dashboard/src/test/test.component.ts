@@ -21,11 +21,13 @@ export class TestComponent implements AfterViewChecked {
 
   closeDialog() {
     this.dialogRef?.result.set(22222);
+    this.dialogRef?.close();
   }
 
   openDialog() {
     const dialogConfig = new DialogConfig<string>();
     dialogConfig.data = 'test data';
+
     this.dialogService.open(Test2Component, dialogConfig);
   }
 }
